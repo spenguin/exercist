@@ -12,7 +12,7 @@ import {
 // import build pages
 import SiteHeader from "./components/SiteHeader/SiteHeader";
 import SiteFooter from "./components/SiteFooter/SiteFooter";
-// import HomePage from "./pages/HomePage/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 // import CreateClasses from "./pages/CreateClasses/CreateClasses";
 // import ViewCategories from "./pages/ViewCategories/ViewCategories";
 // import ViewExercises from "./pages/ViewExercises/ViewExercises";
@@ -30,6 +30,7 @@ function App() {
         <SiteHeader />
         <main>   
           <Switch>
+            <Route path="/" exact component={HomePage} />
             {/* <Route path="/" exact component={HomePage} />
 
             <Route path="/create" component={CreateClasses} />
