@@ -31,6 +31,7 @@ function App() {
         <main>   
           <Switch>
             <Route path="/" exact component={HomePage} />
+            {/* <Route path="/forgotten" component={HomePage} /> */}
             {/* <Route path="/" exact component={HomePage} />
 
             <Route path="/create" component={CreateClasses} />

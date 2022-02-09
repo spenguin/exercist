@@ -12,7 +12,7 @@
   border-radius: $btnRadius;
   text-decoration: none;
   padding-top: 0.5rem;
-  padding-bottom: 0.5;
+  padding-bottom: 0.5rem;
   box-shadow: 2px 2px 3px $EXBlack;
   &:hover {
     box-shadow: 0.5px 0.5px 1px $EXBlack;
@@ -33,7 +33,6 @@
     text-align: left;
     background-color: transparent;
     border: none;
-    margin-left: 3rem;
     &:hover {
       box-shadow: none;
       text-decoration: underline;
