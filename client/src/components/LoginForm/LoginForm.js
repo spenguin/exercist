@@ -28,9 +28,9 @@ export default class Login extends Component {
                 <div className="login-form__action form__action">
                     <button className="login-form__action--login btn btn__submit">Login</button>
                     {/* <button type="button" className="btn btn__cancel" onClick={() => this.formReset()}>Cancel</button>   */}
-                    <Link to="/forgotten"><button type="button" className="btn btn__cancel">Forgotten password</button></Link>
+                    <button type="button" className="btn btn__cancel" onClick={() => this.props.changeModal('forgotten')}>Forgotten password</button>
                 </div>
-                <input type="checkbox" className="form__checkbox" name="remember" /><label className="form__checkbox--label" for="remember">Remember my Login</label>
+                <input type="checkbox" className="form__checkbox" name="remember" /><label className="form__checkbox--label" htmlFor="remember">Remember my Login</label>
             </form>
 
 

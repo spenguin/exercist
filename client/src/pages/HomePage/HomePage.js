@@ -28,11 +28,23 @@ export default class HomePage extends Component {
         };
     //   }
 
+
+
     
     render() {
         const toggleModal = () => {
             this.setState( { displayModal: !this.state.displayModal } )
         }   
+
+        const changeModal = (page) => {
+            this.setState({ displayModal: true } );
+            setTimeout(() => {
+                this.setState( { 
+                    modalComponent: page,
+                    displayModal: false
+                } )}, 1000
+            );
+        }
 
         const CurrentComponent = this.state.components[this.state.modalComponent];
 
@@ -40,7 +52,7 @@ export default class HomePage extends Component {
             <section className="home site-main">
 
                 <Modal isActive={this.state.displayModal} >
-                    <CurrentComponent />
+                    <CurrentComponent changeModal={changeModal} />
                 </Modal>
                 <div className="home-wrapper site-wrapper max-wrapper">
                 {(() => {

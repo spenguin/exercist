@@ -4,7 +4,7 @@
 
 //Import node components
 import React, {Component} from 'react';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom"; FIX
 
 // Import SCSS
 import "./ForgottenForm.scss";
@@ -27,9 +27,9 @@ export default class Login extends Component {
 
                 <div className="forgotten-form__action form__action">
                     <button className="forgotten-form__action--login btn btn__submit">Submit</button>
-                    {/* <button type="button" className="btn btn__cancel" onClick={() => this.formReset()}>Cancel</button>   */}
-                    <Link to="/contact"><button type="button" className="btn btn__cancel">Need more help?</button></Link>
+                    <button type="button" className="btn btn__cancel" onClick={() => this.props.changeModal('contact')}>Need more help?</button>
                 </div>
+                <button type="button" className="btn btn__cancel" onClick={() => this.props.changeModal('login')}>Return to Login</button>
             </form>
 
 

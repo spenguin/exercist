@@ -1,1 +1,10 @@
 // Styling for Forgotten Form
+
+.forgotten-form__action {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  &--login {
+    width: 45%;
+  }
+}
