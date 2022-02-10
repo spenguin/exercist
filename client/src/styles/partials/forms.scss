@@ -35,4 +35,19 @@
       margin-bottom: 0.5rem;
     }
   }
+
+  &__textarea {
+    width: 100%;
+    padding: 0.75rem;
+    height: 5rem;
+    margin-bottom: 2.25rem;
+    font-family: $font-family;
+    font-size: 0.75rem;
+  }
+
+  &__action {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
 }

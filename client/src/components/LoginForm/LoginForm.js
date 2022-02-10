@@ -3,12 +3,12 @@
 
 //Import node components
 import React, {Component} from 'react';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom"; FIX
 
 // Import SCSS
 import "./LoginForm.scss";
 
-export default class Login extends Component {
+export default class LoginForm extends Component {
     state = {
         message: ""
     }
@@ -21,9 +21,9 @@ export default class Login extends Component {
                 <div className="form__message error">{this.state.message}</div>
                 <h2 className="form__heading">Login</h2>
                 <label className="form__input--label">Login Name</label>
-                <input type="text" className="form__input--text" placeholder="Login Name" />
+                <input type="text" className="form__input--text" name="username" placeholder="Login Name" />
                 <label className="form__input--label">Password</label>
-                <input type="password" className="form__input--text" />
+                <input type="password" className="form__input--text" name="password" />
 
                 <div className="login-form__action form__action">
                     <button className="login-form__action--login btn btn__submit">Login</button>

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import ForgottenForm from "../../components/ForgottenForm/ForgottenForm";
+import ContactForm from "../../components/ContactForm/ContactForm";
 
 // SCSS
 import "../HomePage/HomePage.scss";
@@ -23,7 +24,8 @@ export default class HomePage extends Component {
             modalComponent: "login",
             components: {
                 login: LoginForm,
-                forgotten: ForgottenForm
+                forgotten: ForgottenForm,
+                contact: ContactForm
             }
         };
     //   }
