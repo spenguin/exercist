@@ -20,11 +20,11 @@ export default class ContactForm extends Component {
                 <div className="form__message error">{this.state.message}</div>
                 <h2 className="form__heading">Contact</h2>
                 <label className="form__input--label">Your Name</label>
-                <input type="text" className="form__input--text" placeholder="Your Name" name="name" />
+                <input type="text" className="form__input--text" placeholder="Your Name" name="name" required />
                 <label className="form__input--label">Your Email Address</label>
-                <input type="email" className="form__input--text" placeholder="Your Email Address" name="email" />
+                <input type="email" className="form__input--text" placeholder="Your Email Address" name="email" required />
                 <label className="form__input--label">Your Message</label>
-                <textarea name="message" className="form__textarea" placeholder="Your message" />
+                <textarea name="message" className="form__textarea" placeholder="Your message" required />
 
                 <div className="contact-form__action form__action">
                     <button className="contact-form__action--send btn btn__submit">Send</button>

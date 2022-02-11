@@ -30,6 +30,19 @@ export default class HomePage extends Component {
         };
     //   }
 
+    componentDidMount(){
+        window.sessionStorage.setItem("isLoggedIn", "false");
+    }
+
+    componentDidUpdate(){
+        // if( window.sessionStorage.getItem("isLoggedIn") )
+        // {
+        //     this.setState( {
+        //         displayNav: true
+        //     })
+        // }
+    }
+
 
 
     
@@ -54,11 +67,11 @@ export default class HomePage extends Component {
             <section className="home site-main">
 
                 <Modal isActive={this.state.displayModal} >
-                    <CurrentComponent changeModal={changeModal} />
+                    <CurrentComponent changeModal={changeModal} toggleModal={toggleModal} />
                 </Modal>
                 <div className="home-wrapper site-wrapper max-wrapper">
                 {(() => {
-                    if( this.state.displayNav ) 
+                    if( window.sessionStorage.getItem("isLoggedIn") ) 
                     {                    
                         return( 
                             <>
@@ -67,6 +80,12 @@ export default class HomePage extends Component {
                                 <Link to="/categories" className="home__link btn btn__nav">Create or Edit Categories</Link>
                             </>
                         );
+                    }
+                    else
+                    {
+                        return(
+                            <p>Explanation of Exercist</p>
+                        )
                     }
                 })()}                        
                 </div>
