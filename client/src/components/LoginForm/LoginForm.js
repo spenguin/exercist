@@ -42,6 +42,7 @@ export default class LoginForm extends Component {
             if( _res )
             {
                 window.sessionStorage.setItem("isLoggedIn", "true");
+                window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
                 this.props.toggleModal();
             }
             else

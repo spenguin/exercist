@@ -6,6 +6,10 @@
 import React, {Component} from 'react';
 // import { Link } from "react-router-dom"; FIX
 
+// Import Utility function
+import {findUser} from "../../utilities/DataUtils/DataUtils";
+import { sendEmail } from '../../utilities/EmailUtils/EmailUtils';
+
 // Import SCSS
 import "./ForgottenForm.scss";
 
@@ -15,9 +19,39 @@ export default class Login extends Component {
     }
 
 
+    /**
+     * Checks form submit then Validates the entry
+     * @param (str) name
+     * @returns (bool)
+     */
+     submit = (e) => {
+        e.preventDefault(); 
+        if( !e.target.login.value.length )
+        {
+            this.setState({
+                message: "Username or Email are required"
+            });
+        } 
+        else
+        {
+            const _res = findUser( e.target.login.value );
+            if( _res )  // Only fires if user has been found
+            {
+                sendEmail( _res, 'forgottenEmail' );
+            }
+            else
+            {
+                console.log( "Login not found" );
+            }
+            this.setState({
+                message: "If your login was found, an email to reset the password will be sent"
+            });
+        }   
+    }
+
     render() {
         return( 
-            <form className="forgotten-form form">
+            <form className="forgotten-form form" onSubmit={this.submit}>
 
                 <div className="form__message error">{this.state.message}</div>
                 <h2 className="form__heading">Forgotten Login</h2>
