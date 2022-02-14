@@ -77,7 +77,7 @@ export default class HomePage extends Component {
                             <>
                                 <Link to="/create" className="home__link btn btn__nav btn__cta">Create an Exercise Class</Link>
                                 <Link to="/exercises" className="home__link btn btn__nav">Create or Edit Exercises</Link>
-                                <Link to="/categories" className="home__link btn btn__nav">Create or Edit Categories</Link>
+                                {/* <Link to="/categories" className="home__link btn btn__nav">Create or Edit Categories</Link> */}
                             </>
                         );
                     }

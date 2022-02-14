@@ -16,7 +16,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import ResetPage from './pages/ResetPage/ResetPage';
 // import CreateClasses from "./pages/CreateClasses/CreateClasses";
 // import ViewCategories from "./pages/ViewCategories/ViewCategories";
-// import ViewExercises from "./pages/ViewExercises/ViewExercises";
+import ViewExercises from "./pages/ViewExercises/ViewExercises";
 
 
 
@@ -38,10 +38,10 @@ function App() {
             <Route path="/create" component={CreateClasses} />
 
             <Route path="/categories/:categoryId" component={ViewCategories} />
-            <Route path="/categories" component={ViewCategories} />
+            <Route path="/categories" component={ViewCategories} /> */}
 
             <Route path="/exercises/:exerciseId" component={ViewExercises} />
-            <Route path="/exercises" component={ViewExercises} /> */}
+            <Route path="/exercises" component={ViewExercises} />
 
           </Switch>
           </main>

@@ -97,6 +97,17 @@ export function resetPassword( id, password )
     return true;
 } 
 
+/**
+ * 
+ * @returns {array} exercises
+ */
+export function getExercises()
+{
+    // Need to read a joined list from the db
+
+    // May need to get endpoints working now
+}
+
 
 
 function validateEmail(email) 
