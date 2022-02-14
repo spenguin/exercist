@@ -58,6 +58,45 @@ export function findUser( str )
     return false;
 }
 
+/**
+ * Validates reset code
+ * @param {str} nonce 
+ * @returns (JSON) Userdata or false
+ */
+export function validateNonce( str )
+{
+    if( !str ) return false;
+
+    // Need to compare str to nonce field in db
+
+    // Check against existing nonce 
+    if( str === "12345abcde" )
+    {
+        return {
+            "id": "1",
+            "name": "Daisy",
+            "username": "DTesterton",
+            "email": "daisy@testerton.com",
+            "nonce": "12345abcde" 
+        } 
+    }
+    return false;
+}
+
+/**
+ * 
+ * @param {str} userId 
+ * @param {str} password
+ * @returns {bool} 
+ */
+export function resetPassword( id, password )
+{
+    // Need to hash password and write it to the db for the userId
+
+    // Not much needs testing from this end
+    return true;
+} 
+
 
 
 function validateEmail(email) 

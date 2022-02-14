@@ -13,6 +13,7 @@ import {
 import SiteHeader from "./components/SiteHeader/SiteHeader";
 import SiteFooter from "./components/SiteFooter/SiteFooter";
 import HomePage from "./pages/HomePage/HomePage";
+import ResetPage from './pages/ResetPage/ResetPage';
 // import CreateClasses from "./pages/CreateClasses/CreateClasses";
 // import ViewCategories from "./pages/ViewCategories/ViewCategories";
 // import ViewExercises from "./pages/ViewExercises/ViewExercises";
@@ -31,7 +32,7 @@ function App() {
         <main>   
           <Switch>
             <Route path="/" exact component={HomePage} />
-            {/* <Route path="/forgotten" component={HomePage} /> */}
+            <Route path="/reset/:resetId" component={ResetPage} />
             {/* <Route path="/" exact component={HomePage} />
 
             <Route path="/create" component={CreateClasses} />
