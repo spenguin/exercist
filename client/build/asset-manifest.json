@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.1297c902.css",
-    "main.js": "/static/js/main.14ed5866.js",
+    "main.css": "/static/css/main.e8907985.css",
+    "main.js": "/static/js/main.4cfe7c3e.js",
+    "static/media/concrete_wall.png": "/static/media/concrete_wall.2fe8c5888f1ba13a2772.png",
     "static/media/BeVietnamPro-Bold.woff": "/static/media/BeVietnamPro-Bold.307930bc2ddf7c009d53.woff",
     "static/media/BeVietnamPro-SemiBold.woff": "/static/media/BeVietnamPro-SemiBold.0dd23f0f8cc2585ac163.woff",
     "static/media/BeVietnamPro-Regular.woff": "/static/media/BeVietnamPro-Regular.e824ff281f5a131d586e.woff",
@@ -11,11 +12,12 @@
     "static/media/AquireRegular.woff": "/static/media/AquireRegular.bee6a2ef8f0c1ec73c15.woff",
     "static/media/AquireRegular.woff2": "/static/media/AquireRegular.699474f77f284e8cb980.woff2",
     "index.html": "/index.html",
-    "main.1297c902.css.map": "/static/css/main.1297c902.css.map",
-    "main.14ed5866.js.map": "/static/js/main.14ed5866.js.map"
+    "static/media/search.svg": "/static/media/search.c7f3a8218975852dcc63.svg",
+    "main.e8907985.css.map": "/static/css/main.e8907985.css.map",
+    "main.4cfe7c3e.js.map": "/static/js/main.4cfe7c3e.js.map"
   },
   "entrypoints": [
-    "static/css/main.1297c902.css",
-    "static/js/main.14ed5866.js"
+    "static/css/main.e8907985.css",
+    "static/js/main.4cfe7c3e.js"
   ]
 }

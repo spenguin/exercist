@@ -1,24 +1,36 @@
 // Utility to interface with endpoints
 
+import {axios} from "axios";
+
 export function validate(username, password )
 {
     // Test against validation endpoint server-side
 
-    // Testing test for now
-    if( username === password )
-    {
-        return {
-            "id": "1",
-            "name": "Daisy",
-            "username": "DTesterton",
-            "email": "daisy@testerton.com",
-            "nonce": "12345abcde"            
-        }
-    }
-    else 
-    {
-        return false;
-    }
+    axios
+        .get( "http://localhost:8080/api/validate", {
+            username: username,
+            password: password
+        })
+        .then( response => {
+            console.log( "response", response );
+        })
+        .catch( err => console.log( err ) );
+
+    // // Testing test for now
+    // if( username === password )
+    // {
+    //     return {
+    //         "id": "1",
+    //         "name": "Daisy",
+    //         "username": "DTesterton",
+    //         "email": "daisy@testerton.com",
+    //         "nonce": "12345abcde"            
+    //     }
+    // }
+    // else 
+    // {
+    //     return false;
+    // }
 }
 
 

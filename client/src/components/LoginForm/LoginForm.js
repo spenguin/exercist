@@ -3,10 +3,11 @@
 
 //Import node components
 import React, {Component} from 'react';
+import axios from 'axios';
 // import { Link } from "react-router-dom"; FIX
 
 // Import Utility function
-import {validate} from "../../utilities/DataUtils/DataUtils";
+// import {validate} from "../../utilities/DataUtils/DataUtils";
 
 // Import SCSS
 import "./LoginForm.scss";
@@ -38,22 +39,53 @@ export default class LoginForm extends Component {
         }
         else
         {   
-            const _res = validate( e.target.username.value, e.target.password.value );
-            if( _res )
-            {
-                window.sessionStorage.setItem("isLoggedIn", "true");
-                window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
-                this.props.toggleModal();
-            }
-            else
-            {
-                this.setState({
-                    message: "Username or Password is not correct. Please try again"
-                })
-            }
+            // const _res = validate( e.target.username.value, e.target.password.value );
+            axios
+            .post( "http://localhost:8080/api/validate", {
+                username: e.target.username.value,
+                password: e.target.password.value 
+            } )
+            .then( response => {
+                console.log( "response", response );
+                const _res = response.data;
+
+                if( _res )
+                {
+                    window.sessionStorage.setItem("isLoggedIn", "true");
+                    window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
+                    this.props.toggleModal();
+                }
+                else
+                {
+                    this.setState({
+                        message: "Username or Password is not correct. Please try again"
+                    })
+                }
+
+
+            })
+            .catch( err => console.log( err ) );
+
+
+
+
 
         }
     }
+
+    /**
+     * Validate the username and password with the db
+     * @returns {obj} userData or false
+     */
+    // validate = ( username, password ) =>
+    // {
+    //     axios
+    //         .post( "http://localhost:8080/api/validate" )
+    //         .then( response => {
+    //             console.log( "response", response );
+    //         })
+    //         .catch( err => console.log( err ) );
+    // }
 
 
     render() {

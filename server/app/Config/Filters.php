@@ -8,6 +8,8 @@ use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
+/*[JSA:15-02-2022] Added Cors to build */
+use App\Filters\Cors;
 
 class Filters extends BaseConfig
 {
@@ -23,6 +25,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'cors'          => Cors::class, /*[JSA:15-02-2022] Added Cors to build */
     ];
 
     /**
@@ -36,6 +39,7 @@ class Filters extends BaseConfig
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            'cors' /*[JSA:15-02-2022] Added Cors to build */
         ],
         'after' => [
             'toolbar',
