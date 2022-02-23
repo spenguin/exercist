@@ -1,0 +1,40 @@
+/** Style Settings */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/** Fonts */
+@font-face {
+  font-family: "BeVietmanPro";
+  src: url("../../assets/fonts/BeVietnamPro-Regular.woff2") format("woff2"), url("../../assets/fonts/BeVietnamPro-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+  font-family: "BeVietmanPro", sans-serif;
+}
+
+/** Variables for site */
+/** Breakpoints */
+/** Mixins */
+/**
+Function to generate an RGB colour backgrund with a provided opacity
+(https://stackoverflow.com/questions/10929458/sass-converting-hex-to-rgba-for-background-opacity)
+*/
+/*
+  element {
+       @include background-opacity(#333, 0.5);
+  }*/
+/**
+Function to wrap appropriate media query around content
+param: screen size, either tablet or desktop 
+Requires breakpoints to be set or imported
+*/
+
+/*# sourceMappingURL=App.css.map */

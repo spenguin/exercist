@@ -22,8 +22,8 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/i,
-                // use: ['style-loader', 'css-loader'],
+                test: /\.(css|woff|woff2|ttf|eot)$/,
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
