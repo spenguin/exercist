@@ -18,7 +18,23 @@ class Api extends BaseController
      */
     public function validate()
     {   
-        return view( 'api' );
+        $input = $this->getRequestInput($this->request); 
+
+        $o = FALSE;
+        if( $input['login'] === $input['password'] )
+        {
+            $o = [
+                        "id" => "1",
+                        "name" => "Daisy",
+                        "username" => "DTesterton",
+                        "email" => "daisy@testerton.com",
+                        "nonce" => "12345abcde"            
+            ];
+            $o  = json_encode( $o );
+        }
+
+        return $o;
+        
         // $username = $request->getPost( "username" );
         // $password = $request->getPost( "password" );
 

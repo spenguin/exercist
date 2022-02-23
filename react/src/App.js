@@ -12,6 +12,8 @@ import {
 
 // import build pages
 import SiteHeader from "./components/SiteHeader/SiteHeader";
+import SiteFooter from "./components/SiteFooter/SiteFooter";
+import HomePage from "./pages/HomePage/HomePage";
 
 import "./App.css";
 
@@ -23,21 +25,21 @@ function App() {
     return (
       <BrowserRouter>
         <SiteHeader />
-          {/* <main>
+          <main>
           <Switch>
             <Route path="/" exact component={HomePage} />
   
-            <Route path="/create" component={CreateClasses} />
+            {/* <Route path="/create" component={CreateClasses} />
   
             <Route path="/categories/:categoryId" component={ViewCategories} />
             <Route path="/categories" component={ViewCategories} />
   
             <Route path="/exercises/:exerciseId" component={ViewExercises} />
-            <Route path="/exercises" component={ViewExercises} />
+            <Route path="/exercises" component={ViewExercises} /> */}
   
           </Switch>
           </main>
-        <SiteFooter /> */}
+        <SiteFooter />
       </BrowserRouter>
     );
   }

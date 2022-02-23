@@ -1,16 +1,16 @@
 // Styles for SiteHeader
 
-@use "../../styles/partials/colours.scss" as *;
-@use "../../styles/partials/variables.scss" as *;
-@use "../../styles/partials/mixins.scss" as *;
-@use "../../styles/partials/fonts.scss" as *;
+@use "../colours.scss" as *;
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+@use "../fonts.scss" as *;
 
 .site-header {
   padding: 1rem;
 
   &::before {
     content: "";
-    background: url("../../assets/backgrounds/concrete_wall.png");
+    background: $EXGrey url("../../assets/backgrounds/concrete_wall.png");
     z-index: -1;
     position: absolute;
     transform: rotate(15deg);

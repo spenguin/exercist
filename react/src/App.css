@@ -16,6 +16,24 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+@font-face {
+  font-family: "BeVietmanPro";
+  src: url("../../assets/fonts/BeVietnamPro-SemiBold.woff2") format("woff2"), url("../../assets/fonts/BeVietnamPro-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "BeVietmanPro";
+  src: url("../../assets/fonts/BeVietnamPro-Bold.woff2") format("woff2"), url("../../assets/fonts/BeVietnamPro-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Aquire";
+  src: url("../../assets/fonts/AquireRegular.woff2") format("woff2"), url("../../assets/fonts/AquireRegular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
 body {
   font-family: "BeVietmanPro", sans-serif;
 }
@@ -36,5 +54,254 @@ Function to wrap appropriate media query around content
 param: screen size, either tablet or desktop 
 Requires breakpoints to be set or imported
 */
+/* Global styles */
+a {
+  text-decoration: none;
+}
+
+/* Max width wrapper */
+.max-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: #960a28;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+/** Buttons styles */
+.btn {
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8125rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 2px 2px 3px #202020;
+}
+.btn:hover {
+  box-shadow: 0.5px 0.5px 1px #202020;
+}
+.btn__nav {
+  background: #202020 url("../../assets/backgrounds/concrete_wall.png");
+  color: #ffffff;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+@media screen and (min-width: 768px) {
+  .btn__nav {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.btn__cancel {
+  box-shadow: none;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+}
+.btn__cancel:hover {
+  box-shadow: none;
+  text-decoration: underline;
+}
+.btn__send {
+  margin-top: 3rem;
+}
+.btn__search--tiny {
+  padding: 1.25rem;
+  background: url("../../assets/icons/search.svg") no-repeat center;
+  display: inline;
+  height: 2.85rem;
+}
+
+/** Forms styles */
+.form {
+  font-family: "BeVietmanPro", sans-serif;
+  font-size: 0.75rem;
+}
+.form__input--text {
+  border: 1px solid #3f3f3f;
+  border-radius: 0.1875rem;
+  min-height: 2.25rem;
+  width: 100%;
+  min-width: 15rem;
+  margin-bottom: 2.25rem;
+  padding: 0.75rem;
+  background-color: #ffffff;
+  line-height: 1.25rem;
+}
+.form__input--text:active {
+  border-color: #ffdf6c;
+}
+.form__input--search {
+  border: 1px solid #3f3f3f;
+  border-radius: 0.1875rem;
+  min-height: 2.25rem;
+  width: 100%;
+  min-width: 15rem;
+  margin-bottom: 2.25rem;
+  padding: 0.75rem;
+  background-color: #ffffff;
+  line-height: 1.25rem;
+}
+.form__input--label {
+  font-size: 0.6875rem;
+  color: #3f3f3f;
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+.form__textarea {
+  width: 100%;
+  padding: 0.75rem;
+  height: 5rem;
+  margin-bottom: 2.25rem;
+  font-family: "BeVietmanPro", sans-serif;
+  font-size: 0.75rem;
+}
+.form__action {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.site-main {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 7.5rem;
+  padding-bottom: 1rem;
+}
+@media screen and (min-width: 768px) {
+  .site-main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.site-main__link {
+  color: #202020;
+  text-transform: uppercase;
+  font-size: 0.675rem;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+.home-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 768px) {
+  .home-wrapper {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+}
+
+.site-header {
+  padding: 1rem;
+}
+.site-header::before {
+  content: "";
+  background: #3f3f3f url("../../assets/backgrounds/concrete_wall.png");
+  z-index: -1;
+  position: absolute;
+  transform: rotate(15deg);
+  border-radius: 0.5rem;
+  width: 120vw;
+  height: 30vh;
+  left: -20vw;
+  top: -13vh;
+  box-shadow: 3px 5px 5px #202020;
+}
+
+.site-logo {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.site-logo__text {
+  font-size: 3rem;
+  background: -webkit-linear-gradient(#960a28, #202020);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Aquire", sans-serif;
+}
+@media screen and (min-width: 768px) {
+  .site-logo__text {
+    font-size: 5rem;
+  }
+}
+
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  bottom: -15px;
+  background: #3f3f3f url("../../assets/backgrounds/concrete_wall.png");
+}
+.site-footer__link {
+  color: #ffffff;
+  font-size: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal {
+  width: 95%;
+  background-color: #ffffff;
+  position: fixed;
+  z-index: 1;
+  margin-left: -1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid #3f3f3f;
+  box-shadow: 3px 3px 5px #707070;
+  right: 120%;
+  transition-duration: 1s;
+}
+.modal.active {
+  right: 2.5%;
+  transition-duration: 1s;
+}
+.modal__toggle {
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #202020;
+  text-decoration: none;
+  margin-left: 3rem;
+}
+.modal__toggle:hover {
+  text-decoration: underline;
+}
+
+.contact-form__action--send {
+  width: 45%;
+}
+
+.forgotten-form__action--login {
+  width: 45%;
+}
 
 /*# sourceMappingURL=App.css.map */

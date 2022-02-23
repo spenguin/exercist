@@ -22,7 +22,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.(css|woff|woff2|ttf|eot)$/,
+                test: /\.(css|woff|woff2|ttf|eot|png)$/,
                 use: ['style-loader', 'css-loader']
             }
         ]

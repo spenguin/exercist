@@ -5,3 +5,21 @@
 @use "./partials/fonts.scss" as *;
 @use "./partials/variables.scss" as *;
 @use "./partials/mixins.scss" as *;
+
+// Common style files
+@use "./partials/globals.scss" as *;
+@use "./partials/headings.scss" as *;
+@use "./partials/buttons.scss" as *;
+@use "./partials/forms.scss" as *;
+@use "./partials/siteStyles.scss" as *;
+
+// Page styles
+@use "./partials/pages/HomePage.scss" as *;
+
+// Component styles
+@use "./partials/components/SiteHeader.scss" as *;
+@use "./partials/components/SiteFooter.scss" as *;
+@use "./partials/components/Modal.scss" as *;
+@use "./partials/components/ContactForm.scss" as *;
+@use "./partials/components/ForgottenForm.scss" as *;
+@use "./partials/components/ForgottenForm.scss" as *;
