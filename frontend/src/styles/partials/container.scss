@@ -1,0 +1,11 @@
+// Styles for container
+// Called from App.scss
+
+.container {
+  &::before {
+    content: "";
+    width: 100px;
+    height: 100px;
+    background-color: black;
+  }
+}
