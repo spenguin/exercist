@@ -4,17 +4,10 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\ExerciseModel;
+// use App\Models\UserModel;
 
-class Exercises extends ResourceController
+class Users extends ResourceController
 {
-    use ResponseTrait;
-
-    public function __construct()
-    {
-        $this->model  = new ExerciseModel();
-    }
-    
     /**
      * Return an array of resource objects, themselves in array format
      *
@@ -22,9 +15,36 @@ class Exercises extends ResourceController
      */
     public function index()
     {
-        $data   = $this->model->findAll();
-        return $this->respond( $data );
+        
     }
+
+    /**
+     * Return an array of resource objects, themselves in array format
+     *
+     * @return mixed
+     */
+    public function validateLogin()
+    {
+        helper( ['form'] );
+        $rules = [
+            'username'  => 'required',
+            'password'  => 'required'
+        ];
+
+        if( !$this->validate( $rules ) ) return $this->fail( $this->validator->getErrors() );
+
+        if( $this->request->getVar('username') === $this->request->getVar('password') )
+        {
+            return $this->respond([
+                "id"        => "1",
+                "name"      => "Daisy",
+                "username"  => "DTesterton",
+                "email"     => "daisy@testerton.com",
+                "key"       => "12345abcde" 
+            ]);
+        }
+    }
+
 
     /**
      * Return the properties of a resource object
@@ -33,10 +53,7 @@ class Exercises extends ResourceController
      */
     public function show($id = null)
     {
-        $model = new ProductModel();
-        $data = $model->find(['id'  => $id]);
-        if (!$data) return $this->failNotFound('No Data Found');
-        return $this->respond($data[0]);
+        //
     }
 
     /**
@@ -56,26 +73,7 @@ class Exercises extends ResourceController
      */
     public function create()
     {
-        helper(['form']);
-        $rules = [
-            'title' => 'required',
-            'price' => 'required'
-        ];
-        $data = [
-            'title' => $this->request->getVar('title'),
-            'price' => $this->request->getVar('price')
-        ];
-        
-        if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());        $model = new ProductModel();
-        $model->save($data);
-        $response = [
-            'status' => 201,
-            'error' => null,
-            'messages' => [
-                'success' => 'Data Inserted'
-            ]
-        ];
-        return $this->respondCreated($response);
+        //
     }
 
     /**

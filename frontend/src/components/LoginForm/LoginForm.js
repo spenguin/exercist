@@ -39,9 +39,9 @@ export default class LoginForm extends Component {
         }
         else
         {   
-            // const _res = validate( e.target.username.value, e.target.password.value );
+            // const _res = async() => validate( e.target.username.value, e.target.password.value ); //console.log( 'res', _res );
             axios
-            .post( "http://localhost:8080/api/validate", {
+            .post( "http://localhost:8080/users/validateLogin", {
                 username: e.target.username.value,
                 password: e.target.password.value 
             } )
@@ -49,7 +49,7 @@ export default class LoginForm extends Component {
                 console.log( "response", response );
                 const _res = response.data;
 
-                if( _res )
+                if( response.status === 200 )
                 {
                     window.sessionStorage.setItem("isLoggedIn", "true");
                     window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
@@ -60,7 +60,22 @@ export default class LoginForm extends Component {
                     this.setState({
                         message: "Username or Password is not correct. Please try again"
                     })
-                }
+                }  
+
+                // )    
+            
+            // if( _res )
+            //     {
+            //         window.sessionStorage.setItem("isLoggedIn", "true");
+            //         window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
+            //         this.props.toggleModal();
+            //     }
+            //     else
+            //     {
+            //         this.setState({
+            //             message: "Username or Password is not correct. Please try again"
+            //         })
+            //     }
 
 
             })

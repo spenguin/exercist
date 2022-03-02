@@ -1,18 +1,19 @@
 // Utility to interface with endpoints
 
-import {axios} from "axios";
+import axios from "axios";
 
-export function validate(username, password )
+export function validate( username, password )
 {
     // Test against validation endpoint server-side
 
     axios
-        .get( "http://localhost:8080/api/validate", {
+        .post( "http://localhost:8080/users/validateLogin", {
             username: username,
             password: password
         })
         .then( response => {
-            console.log( "response", response );
+            console.log( "response", response.data );
+            return response.data;
         })
         .catch( err => console.log( err ) );
 
