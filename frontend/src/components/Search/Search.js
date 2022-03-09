@@ -20,6 +20,12 @@ export default class Search extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
+    componentDidMount(){
+        this.setState({
+            list: this.props.exercises
+        });
+    }
+
     handleInputChange = (e) => {
 
         if( e.target.value.length > 2 )
@@ -60,6 +66,10 @@ export default class Search extends Component {
 
     render() {
 
+        if( !this.state.list.length )
+        {
+            return ('');
+        }
             return (
                 <div className="search">
                     <form className="search__form form" onSubmit={this.props.submit}>

@@ -7,7 +7,7 @@ import axios from 'axios';
 // import { Link } from "react-router-dom"; FIX
 
 // Import Utility function
-// import {validate} from "../../utilities/DataUtils/DataUtils";
+// import * as DataUtils from "../../utilities/DataUtils/DataUtils";
 
 // Import SCSS
 import "./LoginForm.scss";
@@ -39,14 +39,13 @@ export default class LoginForm extends Component {
         }
         else
         {   
-            // const _res = async() => validate( e.target.username.value, e.target.password.value ); //console.log( 'res', _res );
             axios
             .post( "http://localhost:8080/users/validateLogin", {
                 username: e.target.username.value,
                 password: e.target.password.value 
             } )
             .then( response => {
-                console.log( "response", response );
+                // console.log( "response", response );
                 const _res = response.data;
 
                 if( response.status === 200 )
@@ -60,27 +59,8 @@ export default class LoginForm extends Component {
                     this.setState({
                         message: "Username or Password is not correct. Please try again"
                     })
-                }  
-
-                // )    
-            
-            // if( _res )
-            //     {
-            //         window.sessionStorage.setItem("isLoggedIn", "true");
-            //         window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
-            //         this.props.toggleModal();
-            //     }
-            //     else
-            //     {
-            //         this.setState({
-            //             message: "Username or Password is not correct. Please try again"
-            //         })
-            //     }
-
-
+                } 
             })
-            .catch( err => console.log( err ) );
-
         }
     }
 

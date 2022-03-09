@@ -4,36 +4,32 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\ExerciseModel;
+use App\Models\MetaModel;
 
-class Exercises extends ResourceController
+class Meta extends ResourceController
 {
+    
     use ResponseTrait;
 
     public function __construct()
     {
-        $this->model  = new ExerciseModel();
-    }
+        $this->model  = new MetaModel();
+    }    
     
     /**
      * Return an array of resource objects, themselves in array format
      *
      * @return mixed
      */
-    public function index()
-    {
-        $data   = $this->model->findAll();
-        return $this->respond( $data );
-    }
-
-    /**
-     * Return an array of exercises, each joined to their meta classifications, and their parent exercises
-     * 
-     * @return mixed
-     */
     public function readAll()
     {
-        
+        $data   = $this->model->findAll();
+        $o      = [];
+        foreach( $data as $d )
+        { 
+            $o[$d['id']]    = $d;
+        }
+        return $this->respond( $o );
     }
 
     /**
@@ -43,10 +39,7 @@ class Exercises extends ResourceController
      */
     public function show($id = null)
     {
-        $model = new ProductModel();
-        $data = $model->find(['id'  => $id]);
-        if (!$data) return $this->failNotFound('No Data Found');
-        return $this->respond($data[0]);
+        //
     }
 
     /**
@@ -66,26 +59,7 @@ class Exercises extends ResourceController
      */
     public function create()
     {
-        helper(['form']);
-        $rules = [
-            'title' => 'required',
-            'price' => 'required'
-        ];
-        $data = [
-            'title' => $this->request->getVar('title'),
-            'price' => $this->request->getVar('price')
-        ];
-        
-        if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());        $model = new ProductModel();
-        $model->save($data);
-        $response = [
-            'status' => 201,
-            'error' => null,
-            'messages' => [
-                'success' => 'Data Inserted'
-            ]
-        ];
-        return $this->respondCreated($response);
+        //
     }
 
     /**

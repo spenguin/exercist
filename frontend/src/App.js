@@ -14,9 +14,9 @@ import SiteHeader from "./components/SiteHeader/SiteHeader";
 import SiteFooter from "./components/SiteFooter/SiteFooter";
 import HomePage from "./pages/HomePage/HomePage";
 import ResetPage from './pages/ResetPage/ResetPage';
+import ExercisesPage from './pages/ExercisesPage/ExercisesPage';
 // import CreateClasses from "./pages/CreateClasses/CreateClasses";
 // import ViewCategories from "./pages/ViewCategories/ViewCategories";
-import ViewExercises from "./pages/ViewExercises/ViewExercises";
 
 // import SCSS
 import "../src/styles/app.scss";
@@ -31,15 +31,14 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/reset/:resetId" element={<ResetPage />} />
-            {/* <Route path="/" exact component={HomePage} />
 
-            <Route path="/create" component={CreateClasses} />
+            {/* <Route path="/create" element={CreateClasses} /> */}
 
-            <Route path="/categories/:categoryId" component={ViewCategories} />
+            {/* <Route path="/categories/:categoryId" component={ViewCategories} />
             <Route path="/categories" component={ViewCategories} /> */}
 
-            <Route path="/exercises/:exerciseId" element={<ViewExercises />} />
-            <Route path="/exercises" element={<ViewExercises />} />
+            <Route path="/exercises/:exerciseId" element={<ExercisesPage />} />
+            <Route path="/exercises" element={<ExercisesPage />} />
 
           </Routes>
           </main>

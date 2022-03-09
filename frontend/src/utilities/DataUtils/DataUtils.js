@@ -2,37 +2,52 @@
 
 import axios from "axios";
 
-export function validate( username, password )
-{
-    // Test against validation endpoint server-side
+export const validate = ({ username,password }) => {
+    const URL = `http://localhost:8080/users/validateLogin`;
+    return axios(URL, {
+      method: 'POST/GET',
+      headers: {
+        'content-type': 'application/json', // whatever you want
+      },
+      data: { username, password },
+    })
+      .then(response => response.data)
+      .catch(error => {
+        throw error;
+    });
+};
 
-    axios
-        .post( "http://localhost:8080/users/validateLogin", {
-            username: username,
-            password: password
-        })
-        .then( response => {
-            console.log( "response", response.data );
-            return response.data;
-        })
-        .catch( err => console.log( err ) );
+// export function validate( username, password )
+// {
+//     // Test against validation endpoint server-side
 
-    // // Testing test for now
-    // if( username === password )
-    // {
-    //     return {
-    //         "id": "1",
-    //         "name": "Daisy",
-    //         "username": "DTesterton",
-    //         "email": "daisy@testerton.com",
-    //         "nonce": "12345abcde"            
-    //     }
-    // }
-    // else 
-    // {
-    //     return false;
-    // }
-}
+//     axios
+//         .post( "http://localhost:8080/users/validateLogin", {
+//             username: username,
+//             password: password
+//         })
+//         .then( response => {
+//             console.log( "response", response.data );
+//             return response.data;
+//         })
+//         .catch( err => console.log( err ) );
+
+//     // // Testing test for now
+//     // if( username === password )
+//     // {
+//     //     return {
+//     //         "id": "1",
+//     //         "name": "Daisy",
+//     //         "username": "DTesterton",
+//     //         "email": "daisy@testerton.com",
+//     //         "nonce": "12345abcde"            
+//     //     }
+//     // }
+//     // else 
+//     // {
+//     //     return false;
+//     // }
+// }
 
 
 export function findUser( str )
