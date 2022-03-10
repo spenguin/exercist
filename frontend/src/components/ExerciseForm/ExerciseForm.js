@@ -66,23 +66,32 @@ export default class ExerciseForm extends Component {
             this.setState({
                 selectedCategory: id
             });
-            
-            switch( id ) {
-                case 3:
-                    this.setState({
-                        parentList: this.state.sortedExercises[2]
-                    });
-                    break;
-                case 4 :
-                    this.setState({
-                        parentList: this.state.sortedExercises[3]
-                    });
-                    break;
-                default:
-                    this.setState({
-                        parentList: null
-                    });
+
+            if( this.state.sortedExercises )
+            {
+                const parentList = this.state.sortedExercises[id-1] ? this.state.sortedExercises[id-1] : null;
+                this.setState({
+                    parentList: parentList
+                });
             }
+            
+            // switch( id ) {
+            //     case 3:
+            //         const parentList = this.state.sortedExercises[]
+            //         this.setState({
+            //             parentList: this.state.sortedExercises[2]
+            //         });
+            //         break;
+            //     case 4 :
+            //         this.setState({
+            //             parentList: this.state.sortedExercises[3]
+            //         });
+            //         break;
+            //     default:
+            //         this.setState({
+            //             parentList: null
+            //         });
+            // }
         }        
 
     }     
@@ -130,17 +139,6 @@ export default class ExerciseForm extends Component {
 
                     <label className="form__input--label">Select Category</label>
                     <ExerciseMetaList metaList={this.state.categories } defaultOption={this.state.defaultOption} changeOption={this.changeOption} />
-                    {/* {(() => {
-                        
-                        Object.keys( this.state.categories ).map(( category, i ) => { 
-                            
-                            return (
-                                <div className="form__radio--wrapper" key={i}>
-                                    <input type="radio" className="form__radio" name="categoryId" value={i+1} checked={( i+1 ) === this.state.defaultOption} onChange={() => this.changeOption(i+1)} /><label htmlFor="category" className="form__radio-label" onClick={() => this.changeOption(i)}>{this.state.categories[i+1]['name']}</label>
-                                </div>
-                            )
-                        })
-                    })()} */}
 
                     <button className="btn btn__submit">Select</button>
                     <button type="button" className="btn btn__cancel" onClick={() => this.formReset()}>Cancel</button>                     

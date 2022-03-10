@@ -27,7 +27,7 @@ class Meta extends ResourceController
         $o      = [];
         foreach( $data as $d )
         { 
-            $o[$d['id']]    = $d;
+            $o[]    = $d; //$o[$d['id']]    = $d;
         }
         return $this->respond( $o );
     }
