@@ -41,15 +41,15 @@ export default class ViewExercises extends Component {
             })
             .catch( err => { console.log( 'Error retrieving data', err ) } );
         
-        // Get Categories
-        axios
-            .get(  "http://localhost:8080/meta/readAll" )
-            .then( response => {
-                //console.log( 'categories', response.data ); FIX
-                this.setState( { categoriesList: response.data } );
+        // // Get Categories
+        // axios
+        //     .get(  "http://localhost:8080/meta/readAll" )
+        //     .then( response => {
+        //         //console.log( 'categories', response.data ); FIX
+        //         this.setState( { categoriesList: response.data } );
 
-            })
-            .catch( err => { console.log( 'Error retrieving data', err ) } );
+        //     })
+        //     .catch( err => { console.log( 'Error retrieving data', err ) } );
         
     }
 
@@ -92,7 +92,7 @@ export default class ViewExercises extends Component {
                 <section className="exercises site-main">
                     <div className="exercises-wrapper max-wrapper">
                         <Modal isActive={this.state.displayModal}>
-                            <ExerciseForm categories={this.state.categories} exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} />
+                            <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} />
                         </Modal>                    
                         <Search  exercises={this.state.exercisesList}/>
                         <button className="btn btn__add" onClick={toggleModal}>Add an Exercise</button>
