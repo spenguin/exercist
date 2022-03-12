@@ -21,7 +21,7 @@ class Meta extends ResourceController
      *
      * @return mixed
      */
-    public function readAll()
+    public function index()
     {
         $data   = $this->model->findAll();
         $o      = [];

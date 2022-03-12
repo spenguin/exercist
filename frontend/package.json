@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "An app to organise a library of exercises to create a targetted exercise class",
   "main": "index.js",
-  "proxy": "http://exercist.loc/api/",
+  "proxy": "http://exercist.loc",
   "homepage": "http://exercist.loc",
   "private": true,
   "dependencies": {

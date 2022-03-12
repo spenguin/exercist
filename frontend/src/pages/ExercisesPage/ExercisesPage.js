@@ -30,7 +30,7 @@ export default class ViewExercises extends Component {
     componentDidMount() {
         // Get Exercises
         axios
-            .get(  "http://localhost:8080/exercises" )
+            .get(  "http://localhost:8080/exercises/" )
             .then( response => {
                 //console.log( 'data', response.data ); FIX
                 this.setState( { exercisesList: response.data } );
@@ -40,16 +40,6 @@ export default class ViewExercises extends Component {
                 }
             })
             .catch( err => { console.log( 'Error retrieving data', err ) } );
-        
-        // // Get Categories
-        // axios
-        //     .get(  "http://localhost:8080/meta/readAll" )
-        //     .then( response => {
-        //         //console.log( 'categories', response.data ); FIX
-        //         this.setState( { categoriesList: response.data } );
-
-        //     })
-        //     .catch( err => { console.log( 'Error retrieving data', err ) } );
         
     }
 

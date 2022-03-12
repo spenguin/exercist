@@ -18,18 +18,78 @@ export default class ExerciseForm extends Component {
         this.state = {
             categories: null,
             message: "",
-            defaultOption: 0,
+            defaultOption: '2',
             textareaValue: "",
             sortedExercises: null,
-            selectedCategory: 2
+            selectedCategory: 2,
+            exerciseList: null
         }
-        // this.handleTextareaChange = this.handleTextareaChange.bind(this);
-        // this.submit = this.submit.bind(this);
+        this.handleTextareaChange = this.handleTextareaChange.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     submit = (e) => {
         e.preventDefault();
-    }
+    
+        // Reset the message
+        this.setState({
+            message: ""
+        })
+    
+        // Validate the name
+        if( !e.target.name.value )
+        {
+            this.setState({
+                message: "Exercise must have a name"
+            })
+        }
+        else if( !this.isNameUnique( e.target.name.value ) )
+        {
+            this.setState({
+                message: "Exercise name must be unique"
+            })
+        }
+        else
+        {   
+            // Name is okay. 
+            // Should probably sanitise both name and the description, though FIX
+            // Is this an update or a create or both? FIX
+            axios
+                .post( 'http://localhost:8080/exercises/create', {
+                    name: e.target.name.value,
+                    description: e.target.description.value,
+                    categoryId: e.target.categoryId.value,
+                    parentId: e.target.selected ? e.target.selected.value : null
+                })
+                .then( response => {
+                    console.log( 'response', response.data );
+                    // return response
+                    //window.location.replace( `/exercises/` );
+                })
+                .catch( err => console.log( 'Error writing data', err ) );
+    
+            e.target.reset();
+            this.props.toggleModal();
+        } 
+    }    
+
+    /**
+     * Confirm that the provided Name is unique
+     * @param (str) Name
+     * @returns (bool) false: name already exists
+     */
+    isNameUnique = (testName) => {
+        // console.log( 'exercises', this.props.exerciseList );
+        if( !this.state.exerciseList )
+        {
+            return true;
+        }
+        else
+        {
+            const name = this.state.exerciseList.filter( exercise => exercise.name === testName );
+            return name.length === 0;
+        }
+    }     
 
     /**
      * Reset the form then toggle the Modal
@@ -94,28 +154,35 @@ export default class ExerciseForm extends Component {
             // }
         }        
 
-    }     
+    }   
+    
+    handleTextareaChange = (e) => {
+        this.setState({
+            textareaValue: e.target.value
+        })
+    }    
 
     componentDidMount()
     {
     // Get Categories
         axios
-            .get(  "http://localhost:8080/meta/readAll" )
+            .get(  "http://localhost:8080/meta" )
             .then( response => {
                 this.setState( { categories: response.data } );
             })
-            .catch( err => { console.log( 'Error retrieving data', err ) } );
+            .catch( err => { console.log( 'Error retrieving meta data', err ) } );
     }
 
     render() {
-        // console.log( 'bool', !this.state.categories ); console.log( 'categories', this.state.categories );
+        
         if( !this.state.categories )
         {
             return( <p>... Loading Categories ...</p> );
         }
         else
         {
-            const title = this.props.selectedExercise ? 'Amend Exercise' : 'Create a new Exercise'
+            const title = this.props.selectedExercise ? 'Amend Exercise' : 'Create a new Exercise';
+            const button = this.props.selectedExercise ? 'Amend' : 'Create';
             
             return(
                 <form className="exercise-form form" onSubmit={this.submit}>
@@ -137,11 +204,11 @@ export default class ExerciseForm extends Component {
                     <label className="form__input--label">Description</label>
                     <textarea className="form__textarea" placeholder="Description (optional)" name="description" onBlur={this.textareaValue}></textarea>                    
 
-                    <label className="form__input--label">Select Category</label>
                     <ExerciseMetaList metaList={this.state.categories } defaultOption={this.state.defaultOption} changeOption={this.changeOption} />
-
-                    <button className="btn btn__submit">Select</button>
-                    <button type="button" className="btn btn__cancel" onClick={() => this.formReset()}>Cancel</button>                     
+                    <div className="form__action--wrapper">
+                        <button className="btn btn__submit">{button}</button>
+                        <button type="button" className="btn btn__cancel" onClick={() => this.formReset()}>Cancel</button>     
+                    </div>                
                 </form>
             );
         }

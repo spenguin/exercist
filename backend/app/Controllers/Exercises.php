@@ -5,6 +5,8 @@ namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\ExerciseModel;
+use App\Models\RelationshipsModel;
+use App\Models\ExerciseMetaModel;
 
 class Exercises extends ResourceController
 {
@@ -31,10 +33,11 @@ class Exercises extends ResourceController
      * 
      * @return mixed
      */
-    public function readAll()
-    {
-        
-    }
+    // public function readAll()
+    // {   
+    //     $data   = $this->model->findAll();
+    //     return $this->respond( $data );        
+    // }
 
     /**
      * Return the properties of a resource object
@@ -43,8 +46,8 @@ class Exercises extends ResourceController
      */
     public function show($id = null)
     {
-        $model = new ProductModel();
-        $data = $model->find(['id'  => $id]);
+        // $model = new ProductModel();
+        $data = $this->model->find(['id'  => $id]);
         if (!$data) return $this->failNotFound('No Data Found');
         return $this->respond($data[0]);
     }
@@ -66,18 +69,41 @@ class Exercises extends ResourceController
      */
     public function create()
     {
-        helper(['form']);
+       
+        
+        helper(['form, url']);
         $rules = [
-            'title' => 'required',
-            'price' => 'required'
+            'name'          => 'required',
+            'categoryId'    => 'required'
         ];
-        $data = [
-            'title' => $this->request->getVar('title'),
-            'price' => $this->request->getVar('price')
+        $data   = [
+            'name' => $this->request->getVar( 'name' ),
+            'description' => $this->request->getVar( 'description' ),
+            'slug'  => url_title( $this->request->getVar( 'name' ), '-', TRUE )
         ];
         
-        if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());        $model = new ProductModel();
-        $model->save($data);
+        if(!$this->validate($rules)) return $this->fail($this->validator->getErrors()); 
+
+        $this->model->save($data);
+
+        $eId    = $this->model->getInsertID();
+        $mId    = $this->request->getVar( 'categoryId' ); //var_dump( $mId );
+        $data   = [
+            'eId'   => $eId,
+            'mId'   => $mId
+        ];
+
+        $exercise_meta  = new ExerciseMetaModel();
+        
+        $exercise_meta->save( $data );
+
+        // // Need to check if any parents have been selected
+
+        // // $data   = [
+        // //     'eId'   => $eId,
+        // //     'parentId'  => 
+        // // ]
+
         $response = [
             'status' => 201,
             'error' => null,
@@ -117,4 +143,5 @@ class Exercises extends ResourceController
     {
         //
     }
+
 }

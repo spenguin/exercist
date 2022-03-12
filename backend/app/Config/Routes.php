@@ -34,6 +34,7 @@ $routes->setAutoRoute(true);
 // $routes->get('/', 'Home::index');
 $routes->resource( 'exercises' );
 $routes->resource( 'users' );
+$routes->resource( 'meta' );
 
 /*
  * --------------------------------------------------------------------
