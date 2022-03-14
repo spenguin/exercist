@@ -20,12 +20,6 @@ export default class Search extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    componentDidMount(){
-        this.setState({
-            list: this.props.exercises
-        });
-    }
-
     handleInputChange = (e) => {
 
         if( e.target.value.length > 2 )
@@ -33,7 +27,7 @@ export default class Search extends Component {
             this.setState({
                 target: e.target
             });
-            const filteredList = this.filterItems( this.props.list, e.target.value ); //console.log( 'filtered list', filteredList)
+            const filteredList = this.filterItems( this.props.list, e.target.value ); 
             this.setState({
                 list: filteredList
             });
@@ -43,9 +37,9 @@ export default class Search extends Component {
     /**
      * Filter array items based on search criteria (query)
      */
-    filterItems = (arr, query) => {
+    filterItems = (arr, query) => { 
         return arr.filter(function(el) {
-            return el.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+            return el.value.toLowerCase().indexOf(query.toLowerCase()) !== -1
         })
     }
 
@@ -65,27 +59,40 @@ export default class Search extends Component {
     }
 
     render() {
-
-        if( !this.state.list.length )
-        {
-            return ('');
-        }
-            return (
-                <div className="search">
-                    <form className="search__form form" onSubmit={this.props.submit}>
-                        <input type="text" className="input form__input--search" onChange={this.handleInputChange} placeholder="Search for Exercise" />
-                        <button className="btn btn__search--tiny"></button>
-                    </form>
-                    <div className="search__result">
-                        {
-                            this.state.list.map( item => {
-                                return (
-                                    <li key={item.id} className="search__result--item" onClick={ this.selectHandler(item.id) }>{item.name}</li>
-                                )
-                            })
-                        }
-                    </div>
+        return (
+            <div className="search">
+                <form className="search__form form" onSubmit={this.props.submit}>
+                    <input type="text" className="input form__input--search" onChange={this.handleInputChange} placeholder="Search for Exercise" />
+                    <button className="btn btn__search--tiny"></button>
+                </form>
+                <div className="search__result">
+                    {
+                        this.state.list.map( item => {
+                            return (
+                                <li key={item.key} className="search__result--item" onClick={ this.selectHandler(item.key) }>{item.value}</li>
+                            )
+                        })
+                    }
                 </div>
-            )
-        }
+            </div>
+        )
+    }
 }
+
+/**
+ * Create key/value pairs from array
+ * @params ( array, str, str ) array, keyfieldname, valuefieldname
+ * @returns arr
+ */
+ export function extractPairs( array, key, value )
+ {   
+    const o = [];
+    for( let i = 0; i < array.length; i++ )
+    {
+    o.push({
+        'key': array[i][key],
+        'value': array[i][value]
+        })
+    } 
+    return o;
+ }

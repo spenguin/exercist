@@ -8,11 +8,12 @@ import axios from "axios";
 
 // import components
 import Modal from "../../components/Modal/Modal";
-import Search from "../../components/Search/Search";
+import Search, {extractPairs} from "../../components/Search/Search";
 import ExerciseForm from "../../components/ExerciseForm/ExerciseForm";
 
 // import Utilities
 // import {getExercises} from "../../utilities/DataUtils/DataUtils"
+// import {extractPairs} from "../../utilities/ArrayUtils/ArrayUtils";
 
 // import SCSS
 import "../ExercisesPage/ExercisesPage.scss"
@@ -77,14 +78,16 @@ export default class ViewExercises extends Component {
             return ( <p>... Loading Exercises ...</p> );
         }
         else
-        {        
+        {   
+            const exerciseSearchList = extractPairs( this.state.exercisesList, 'id', 'name' );
+            
             return (
                 <section className="exercises site-main">
                     <div className="exercises-wrapper max-wrapper">
                         <Modal isActive={this.state.displayModal}>
                             <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} />
                         </Modal>                    
-                        <Search  exercises={this.state.exercisesList}/>
+                        <Search list={exerciseSearchList} submit={submitSearch}/>
                         <button className="btn btn__add" onClick={toggleModal}>Add an Exercise</button>
                         <Link to="/"><button type="button" className="btn btn__cancel">Return to Home Page</button></Link>                  
                     </div>
