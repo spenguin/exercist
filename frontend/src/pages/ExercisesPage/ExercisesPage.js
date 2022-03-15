@@ -10,6 +10,7 @@ import axios from "axios";
 import Modal from "../../components/Modal/Modal";
 import Search, {extractPairs} from "../../components/Search/Search";
 import ExerciseForm from "../../components/ExerciseForm/ExerciseForm";
+import ExercisesList from "../../components/ExercisesList/ExercisesList"
 
 // import Utilities
 // import {getExercises} from "../../utilities/DataUtils/DataUtils"
@@ -33,12 +34,12 @@ export default class ViewExercises extends Component {
         axios
             .get(  "http://localhost:8080/exercises/" )
             .then( response => {
-                //console.log( 'data', response.data ); FIX
+                // console.log( 'data', response.data ); //FIX
                 this.setState( { exercisesList: response.data } );
-                if( this.props.match.params.exerciseId )
-                {
-                    this.displayExercise( this.props.match.params.exerciseId );
-                }
+                // if( this.props.match.params.exerciseId )
+                // {
+                //     this.displayExercise( this.props.match.params.exerciseId );
+                // }
             })
             .catch( err => { console.log( 'Error retrieving data', err ) } );
         
@@ -80,6 +81,7 @@ export default class ViewExercises extends Component {
         else
         {   
             const exerciseSearchList = extractPairs( this.state.exercisesList, 'id', 'name' );
+            const listCount = 5;
             
             return (
                 <section className="exercises site-main">
@@ -88,8 +90,12 @@ export default class ViewExercises extends Component {
                             <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} />
                         </Modal>                    
                         <Search list={exerciseSearchList} submit={submitSearch}/>
-                        <button className="btn btn__add" onClick={toggleModal}>Add an Exercise</button>
-                        <Link to="/"><button type="button" className="btn btn__cancel">Return to Home Page</button></Link>                  
+                        <h3>{listCount} most recent Exercises</h3>
+                        <ExercisesList exercises={this.state.exercisesList} count={listCount} />
+                        <div className="site-main__action-wrapper">
+                            <button className="btn btn__add" onClick={toggleModal}>Add an Exercise</button>
+                            <Link to="/"><button type="button" className="btn btn__cancel">Return to Home Page</button></Link>    
+                        </div>              
                     </div>
                 </section>
             )

@@ -1,0 +1,39 @@
+// List styles
+
+@use "../partials/colours.scss" as *;
+@use "../partials/variables.scss" as *;
+@use "../partials/mixins.scss" as *;
+
+.list {
+  list-style: none;
+  padding-left: 0;
+  &__item {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__wrapper {
+    padding: 0.5rem;
+    background-color: $EXWhite;
+    border-radius: $formRadius;
+    // box-shadow: inset 2px 1px 1px $EAGrey; FIX
+    line-height: 2.5rem;
+    // border: 1px solid $EAPaleGrey;
+  }
+  &__presented {
+    &--list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    &--item {
+      margin-left: 1rem;
+      font-size: 0.75rem;
+      line-height: 1.25rem;
+      list-style: disc;
+    }
+  }
+  &__item {
+    line-height: 1.25rem;
+    margin-bottom: 1rem;
+  }
+}

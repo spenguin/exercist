@@ -7,6 +7,7 @@ import axios from 'axios';
 
 // import components
 import ExerciseMetaList from "./_ExerciseMetaList"
+import DisplayList from "../DisplayList/DisplayList";
 
 // Import Utilities
 import {organiseExercises} from "../../utilities/ArrayUtils/ArrayUtils";
@@ -119,7 +120,7 @@ export default class ExerciseForm extends Component {
                 defaultOption: this.props.selectedExercise[0].mId
             })
         }
-
+        console.log( 'exercises', this.props.exerciseList );
         // Need to present the possible parent Exercises 
         if( !(id === this.state.selectedCategory ) )
         {
@@ -127,13 +128,17 @@ export default class ExerciseForm extends Component {
                 selectedCategory: id
             });
 
-            if( this.state.sortedExercises )
-            {
-                const parentList = this.state.sortedExercises[id-1] ? this.state.sortedExercises[id-1] : null;
-                this.setState({
-                    parentList: parentList
-                });
-            }
+            const parentList = this.props.exerciseList.filter( exercise => exercise.mId == id-1 );
+            this.setState({
+                parentList: parentList
+            });
+            // if( this.state.sortedExercises )
+            // {
+            //     const parentList = this.state.sortedExercises[id-1] ? this.state.sortedExercises[id-1] : null;
+            //     this.setState({
+            //         parentList: parentList
+            //     });
+            // }
             
             // switch( id ) {
             //     case 3:
@@ -205,6 +210,9 @@ export default class ExerciseForm extends Component {
                     <textarea className="form__textarea" placeholder="Description (optional)" name="description" onBlur={this.textareaValue}></textarea>                    
 
                     <ExerciseMetaList metaList={this.state.categories } defaultOption={this.state.defaultOption} changeOption={this.changeOption} />
+
+                    <DisplayList list={this.state.parentList} />
+
                     <div className="form__action--wrapper">
                         <button className="btn btn__submit">{button}</button>
                         <button type="button" className="btn btn__cancel" onClick={() => this.formReset()}>Cancel</button>     

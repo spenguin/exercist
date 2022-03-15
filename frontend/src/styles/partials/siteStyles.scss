@@ -25,4 +25,8 @@
       // color: $EABlue;
     }
   }
+  &__action-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
 }

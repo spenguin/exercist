@@ -24,7 +24,16 @@ class Exercises extends ResourceController
      */
     public function index()
     {
-        $data   = $this->model->findAll();
+        // $data   = $this->model->findAll();
+        // $query  = $this->model->join( 'exercise_meta as em', 'em.eId = exercises.id' )->get();
+        // $query  = $db->table( 'exercises' );
+        // $data   = $query->get();
+
+        $builder    = $this->model->builder();
+        $builder->select( '*' );
+        $builder->join( 'exercise_meta as em', 'em.eId = exercises.id' );
+        $data       = $builder->get()->getResultArray();
+
         return $this->respond( $data );
     }
 
@@ -33,11 +42,13 @@ class Exercises extends ResourceController
      * 
      * @return mixed
      */
-    // public function readAll()
-    // {   
-    //     $data   = $this->model->findAll();
-    //     return $this->respond( $data );        
-    // }
+    public function readAll()
+    {   
+        $query  = $this->model->join( 'exercise_meta as em', 'em.eId = exercises.id' )->get();
+        
+        // $data   = $this->model->findAll();
+        return $this->respond( $data );        
+    }
 
     /**
      * Return the properties of a resource object
@@ -69,8 +80,6 @@ class Exercises extends ResourceController
      */
     public function create()
     {
-       
-        
         helper(['form, url']);
         $rules = [
             'name'          => 'required',
@@ -80,18 +89,18 @@ class Exercises extends ResourceController
             'name' => $this->request->getVar( 'name' ),
             'description' => $this->request->getVar( 'description' ),
             'slug'  => url_title( $this->request->getVar( 'name' ), '-', TRUE )
-        ];
+        ]; 
         
         if(!$this->validate($rules)) return $this->fail($this->validator->getErrors()); 
-
-        $this->model->save($data);
+        
+        $this->model->save($data); 
 
         $eId    = $this->model->getInsertID();
         $mId    = $this->request->getVar( 'categoryId' ); //var_dump( $mId );
         $data   = [
             'eId'   => $eId,
             'mId'   => $mId
-        ];
+        ]; 
 
         $exercise_meta  = new ExerciseMetaModel();
         
