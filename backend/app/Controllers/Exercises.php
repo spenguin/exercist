@@ -108,10 +108,23 @@ class Exercises extends ResourceController
 
         // // Need to check if any parents have been selected
 
-        // // $data   = [
-        // //     'eId'   => $eId,
-        // //     'parentId'  => 
-        // // ]
+        $parentId   = $this->request->getVar( 'parentId' );
+
+        if( !empty( $parentId ) )
+        {   
+            $parentId = explode( ',', $parentId ); 
+            $relations  = new RelationshipsModel();
+
+            foreach( $parentId as $pId )
+            {
+                $data   = [
+                    'eId'       => $eId,
+                    'parentId'  => $pId
+                ];
+
+                $relations->save( $data );
+            }
+        }
 
         $response = [
             'status' => 201,

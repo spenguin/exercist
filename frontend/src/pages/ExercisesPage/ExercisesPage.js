@@ -76,7 +76,14 @@ export default class ViewExercises extends Component {
         
         if( !this.state.exercisesList )
         {
-            return ( <p>... Loading Exercises ...</p> );
+            return ( 
+            
+                <section className="exercises site-main">
+                    <div className="exercises-wrapper max-wrapper">
+                        <p>... Loading Exercises ...</p> 
+                    </div>
+                </section>            
+            );
         }
         else
         {   

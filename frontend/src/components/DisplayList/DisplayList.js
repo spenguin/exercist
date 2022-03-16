@@ -58,7 +58,7 @@ export default class DisplayList extends Component {
         });
     }
 
-    render(){ console.table( this.props.list );
+    render(){ 
         
         if( !this.props.list )
         {
@@ -70,7 +70,7 @@ export default class DisplayList extends Component {
             return (
                 <div className="display-list">
                     <input type="hidden" name="selected" value={this.state.selected} />
-                    <div className="display-list__title">Select those exercises that are supported</div>
+                    <div className="display-list__title">Select supported exercises (optional)</div>
                     <div className="display-list--wrapper" >
                         {
                             this.props.list.map( item => {
