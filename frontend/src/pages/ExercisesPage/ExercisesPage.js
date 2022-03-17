@@ -31,17 +31,7 @@ export default class ViewExercises extends Component {
 
     componentDidMount() {
         // Get Exercises
-        axios
-            .get(  "http://localhost:8080/exercises/" )
-            .then( response => {
-                // console.log( 'data', response.data ); //FIX
-                this.setState( { exercisesList: response.data } );
-                // if( this.props.match.params.exerciseId )
-                // {
-                //     this.displayExercise( this.props.match.params.exerciseId );
-                // }
-            })
-            .catch( err => { console.log( 'Error retrieving data', err ) } );
+        this.getExercises();
         
     }
 
@@ -52,6 +42,23 @@ export default class ViewExercises extends Component {
         // {   
         //     this.displayExercise( this.props.match.params.exerciseId );
         // }
+    }
+
+    getExercises()
+    {
+        axios
+            .get(  "http://localhost:8080/exercises/" )
+            .then( response => {
+                
+                this.setState( { exercisesList: response.data } );
+                // if( this.props.match.params.exerciseId )
+                // {
+                //     this.displayExercise( this.props.match.params.exerciseId );
+                // }
+            })
+            .catch( err => { console.log( 'Error retrieving data', err ) } ); 
+            
+            return true;
     }
 
     displayExercise( id )
@@ -73,6 +80,10 @@ export default class ViewExercises extends Component {
             const exerciseMatch = this.state.exercisesList.filter( exercise => exercise.name === e.target[0].value ); 
             window.location.replace( `/exercises/${exerciseMatch[0].id}` );
         }
+
+        const setExercises = () => { 
+            this.getExercises();
+        }
         
         if( !this.state.exercisesList )
         {
@@ -87,18 +98,21 @@ export default class ViewExercises extends Component {
         }
         else
         {   
-            const exerciseSearchList = extractPairs( this.state.exercisesList, 'id', 'name' );
+            const exerciseSearchList = extractPairs( this.state.exercisesList, 'id', 'name' ); 
             const listCount = 5;
             
             return (
                 <section className="exercises site-main">
                     <div className="exercises-wrapper max-wrapper">
                         <Modal isActive={this.state.displayModal}>
-                            <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} />
-                        </Modal>                    
+                            <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} setExercises={setExercises} />
+                        </Modal>   
+
                         <Search list={exerciseSearchList} submit={submitSearch}/>
+
                         <h3>{listCount} most recent Exercises</h3>
                         <ExercisesList exercises={this.state.exercisesList} count={listCount} />
+
                         <div className="site-main__action-wrapper">
                             <button className="btn btn__add" onClick={toggleModal}>Add an Exercise</button>
                             <Link to="/"><button type="button" className="btn btn__cancel">Return to Home Page</button></Link>    

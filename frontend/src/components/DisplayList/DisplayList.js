@@ -75,7 +75,7 @@ export default class DisplayList extends Component {
                         {
                             this.props.list.map( item => {
                                 return (
-                                    <div className="display-list__item" >
+                                    <div className="display-list__item" key={item.id}>
                                         <input 
                                             type="checkbox" 
                                             name="parentId" 
