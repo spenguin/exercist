@@ -5,7 +5,7 @@
 import React  from "react";
 
 export default function ExerciseMetaList( {metaList, defaultOption, changeOption} )
-{   
+{   console.log( 'defaultOption', defaultOption );
     return (
         Object.keys( metaList ).map(( category, i ) => { 
 

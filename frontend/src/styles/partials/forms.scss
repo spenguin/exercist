@@ -45,6 +45,11 @@
       display: inline-block;
       margin-bottom: 0.5rem;
     }
+
+    &--statement {
+      margin-top: 0;
+      font-size: 1.25rem;
+    }
   }
 
   &__textarea {

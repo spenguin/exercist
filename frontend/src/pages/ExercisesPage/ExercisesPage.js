@@ -3,7 +3,7 @@
 
 // import node components
 import React, {Component} from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 // import components
@@ -21,28 +21,30 @@ import "../ExercisesPage/ExercisesPage.scss"
 
 
 export default class ViewExercises extends Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
         displayModal: true,
         currentCategory: 0,
         exercisesList: null,
-        selectedExercise: null,
+        // selectedExercise: null,
         categoriesList: []
     }
 
     componentDidMount() {
         // Get Exercises
         this.getExercises();
-        
     }
 
-    componentDidUpdate( prevProps )
-    {
-        // const prevId = prevProps.match.params.exerciseId ? prevProps.match.params.exerciseId : null;
-        // if( this.props.match.params.exerciseId && ( this.props.match.params.exerciseId !== prevId ) )
-        // {   
-        //     this.displayExercise( this.props.match.params.exerciseId );
-        // }
-    }
+    // componentDidUpdate( prevProps )
+    // {
+    //     // const prevId = prevProps.match.params.exerciseId ? prevProps.match.params.exerciseId : null;
+    //     // if( this.props.match.params.exerciseId && ( this.props.match.params.exerciseId !== prevId ) )
+    //     // {   
+    //     //     this.displayExercise( this.props.match.params.exerciseId );
+    //     // }
+    // }
 
     getExercises()
     {
@@ -61,13 +63,13 @@ export default class ViewExercises extends Component {
             return true;
     }
 
-    displayExercise( id )
-    {
-        this.setState( {
-            selectedExercise: this.state.exercisesList.filter( exercise => exercise.id == id ), // FIX ==
-            displayModal: false
-        })         
-    }
+    // displayExercise( id )
+    // {
+    //     // this.setState( {
+    //     //     selectedExercise: this.state.exercisesList.filter( exercise => exercise.id == id ), // FIX ==
+    //     //     displayModal: false
+    //     // })         
+    // }
 
     render() {
 
@@ -100,12 +102,23 @@ export default class ViewExercises extends Component {
         {   
             const exerciseSearchList = extractPairs( this.state.exercisesList, 'id', 'name' ); 
             const listCount = 5;
+
+            const Wrapper = (props) => {
+                const params = useParams();
+                const exerciseId = params.exerciseId ? params.exerciseId : null;
+
+
+                // return  <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} setExercises={setExercises} {...{...props, match: {params}} } />
+                return  <ExerciseForm exerciseList={this.state.exercisesList} exerciseId={exerciseId} toggleModal={toggleModal} setExercises={setExercises} {...{...props, match: {params}} } />                
+              }
+
             
             return (
                 <section className="exercises site-main">
                     <div className="exercises-wrapper max-wrapper">
                         <Modal isActive={this.state.displayModal}>
-                            <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} setExercises={setExercises} />
+                            {/* <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} setExercises={setExercises} /> */}
+                            <Wrapper />
                         </Modal>   
 
                         <Search list={exerciseSearchList} submit={submitSearch}/>

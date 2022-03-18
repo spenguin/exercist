@@ -9,13 +9,13 @@ import axios from 'axios';
 import ExerciseMetaList from "./_ExerciseMetaList"
 import DisplayList from "../DisplayList/DisplayList";
 
-// Import Utilities
-import {organiseExercises} from "../../utilities/ArrayUtils/ArrayUtils";
+// Import Utilities 
+// import {organiseExercises} from "../../utilities/ArrayUtils/ArrayUtils"; FIX
 
 
 export default class ExerciseForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             categories: null,
             message: "",
@@ -23,7 +23,8 @@ export default class ExerciseForm extends Component {
             textareaValue: "",
             sortedExercises: null,
             selectedCategory: 2,
-            exerciseList: null
+            exerciseList: null,
+            selectedExercise: null
         }
         this.handleTextareaChange = this.handleTextareaChange.bind(this);
         this.submit = this.submit.bind(this);
@@ -110,15 +111,16 @@ export default class ExerciseForm extends Component {
         this.props.toggleModal();
     }   
     
+
     changeOption = (id) => {
         this.setState({
             defaultOption: id
         });
 
-        if( this.props.selectedExercise )
+        if( this.state.selectedExercise )
         {
             this.setState({
-                defaultOption: this.props.selectedExercise[0].mId
+                defaultOption: this.state.selectedExercise[0].mId
             })
         }
 
@@ -128,7 +130,7 @@ export default class ExerciseForm extends Component {
             this.setState({
                 selectedCategory: id
             });
-
+            console.log( 'id', typeof( id ) );
             const parentList = this.props.exerciseList.filter( exercise => exercise.mId == id-1 );
             this.setState({
                 parentList: parentList
@@ -152,6 +154,16 @@ export default class ExerciseForm extends Component {
                 this.setState( { categories: response.data } );
             })
             .catch( err => { console.log( 'Error retrieving meta data', err ) } );
+        
+            if( this.props.exerciseId )
+            {
+                const selectedExercise = this.props.exerciseId ? this.props.exerciseList.filter( exercise => exercise.id === this.props.exerciseId ) : null;
+                this.setState({
+                    selectedExercise: selectedExercise,
+                    defaultOption: selectedExercise[0].mId,
+                    parentList: this.props.exerciseList.filter( exercise => exercise.mId == selectedExercise[0].mId-1 )
+                });  
+            }          
     }
 
     render() {
@@ -162,25 +174,30 @@ export default class ExerciseForm extends Component {
         }
         else
         {
-            const title = this.props.selectedExercise ? 'Amend Exercise' : 'Create a new Exercise';
-            const button = this.props.selectedExercise ? 'Amend' : 'Create';
+            const title = this.props.exerciseId ? 'Amend Exercise' : 'Create a new Exercise';
+            const button = this.props.exerciseId ? 'Amend' : 'Create';
+            const requiredStr   = this.props.exerciseId ? '' : '(required)';
             
             return(
                 <form className="exercise-form form" onSubmit={this.submit}>
                     <div className="form__message error">{this.state.message}</div>
                     <h2 className="form__heading">{title}</h2>
-                    <label className="form__input--label">Exercise Name (required)</label>
+                    <label className="form__input--label">Exercise Name {requiredStr}</label>
                     {(() => {
-                        if( this.props.selectedExercise )
+                        if( this.props.exerciseId )
                         {
-                            return ( <p className="form__input--statement">{this.props.selectedExercise[0].name }</p> )
+                            return ( <p className="form__input--statement">{this.state.selectedExercise[0].name }</p> )
                         }
                         else
                         {
-                            return ( <input className="form__input--text" name="name" placeholder="Exercise name" /> )
+                            return ( 
+                                <>
+                                    <input className="form__input--text" name="name" placeholder="Exercise name" />
+                                    <p className="form__note">Name must be unique</p> 
+                                </>
+                            )
                         }
                     })()}     
-                    <p className="form__note">Name must be unique</p>
 
                     <label className="form__input--label">Description</label>
                     <textarea className="form__textarea" placeholder="Description (optional)" name="description" onBlur={this.textareaValue}></textarea>                    
