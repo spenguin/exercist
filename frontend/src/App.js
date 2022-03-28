@@ -15,7 +15,7 @@ import SiteFooter from "./components/SiteFooter/SiteFooter";
 import HomePage from "./pages/HomePage/HomePage";
 import ResetPage from './pages/ResetPage/ResetPage';
 import ExercisesPage from './pages/ExercisesPage/ExercisesPage';
-// import CreateClasses from "./pages/CreateClasses/CreateClasses";
+import ClassesPage from "./pages/ClassesPage/ClassesPage";
 // import ViewCategories from "./pages/ViewCategories/ViewCategories";
 
 // import SCSS
@@ -32,7 +32,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/reset/:resetId" element={<ResetPage />} />
 
-            {/* <Route path="/create" element={CreateClasses} /> */}
+            <Route path="/classes" element={<ClassesPage/>} />
 
             {/* <Route path="/categories/:categoryId" component={ViewCategories} />
             <Route path="/categories" component={ViewCategories} /> */}

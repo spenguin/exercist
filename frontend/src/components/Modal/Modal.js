@@ -8,16 +8,13 @@ import React, {Component} from 'react';
 import "./Modal.scss";
 
 
-export default class Modal extends Component {
+export default function Modal( props )  
+{   
+    const { isActive } = props;
 
-
-    render(){
-        const { isActive } = this.props;
-
-        return (
-            <div className={`modal ${isActive ? "" : "active"}`}>
-                {this.props.children}
-            </div>
-        );
-    };
+    return (
+        <div className={`modal ${isActive ? "" : "active"}`}>
+            {props.children}
+        </div>
+    );
 }

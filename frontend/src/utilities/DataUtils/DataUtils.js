@@ -1,21 +1,53 @@
 // Utility to interface with endpoints
+// Really struggling to get this working properly FIX
 
 import axios from "axios";
+const URL = "http://localhost:8080";
 
-export const validate = ({ username,password }) => {
-    const URL = `http://localhost:8080/users/validateLogin`;
-    return axios(URL, {
-      method: 'POST/GET',
-      headers: {
-        'content-type': 'application/json', // whatever you want
-      },
-      data: { username, password },
-    })
-      .then(response => response.data)
-      .catch(error => {
-        throw error;
-    });
-};
+/**
+ * Read the data for the app 
+ * Write it to Session variables
+ */
+export const setData = () => 
+{   
+    let exercisesURL    = `${URL}/exercises`;
+    let metaURL         = `${URL}/meta`;
+    let relationshipsURL= `${URL}/relationships`; 
+    
+    const requestExercises  = axios.get ( exercisesURL );
+    const requestMeta       = axios.get ( metaURL );
+    const requestRelationships = axios.get ( relationshipsURL );
+
+
+    axios.all([requestExercises, requestMeta, requestRelationships]).then(axios.spread((...responses) => {
+
+        window.sessionStorage.setItem( "exercises", JSON.stringify( responses[0].data ) );
+        window.sessionStorage.setItem( "meta", JSON.stringify( responses[1].data ) );
+        window.sessionStorage.setItem( "relationships", JSON.stringify( responses[2].data ) );
+
+      })).catch(errors => {
+      
+        console.log( 'Errors reading data', errors );
+      
+      })
+}
+    
+    
+
+// export const validate = ({ username,password }) => {
+//     const URL = `http://localhost:8080/users/validateLogin`;
+//     return axios(URL, {
+//       method: 'POST/GET',
+//       headers: {
+//         'content-type': 'application/json', // whatever you want
+//       },
+//       data: { username, password },
+//     })
+//       .then(response => response.data)
+//       .catch(error => {
+//         throw error;
+//     });
+// };
 
 // export function validate( username, password )
 // {

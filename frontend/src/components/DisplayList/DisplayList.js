@@ -74,6 +74,7 @@ export default class DisplayList extends Component {
                     <div className="display-list--wrapper" >
                         {
                             this.props.list.map( item => {
+                                console.log( 'relationship', this.props.selected.filter( sel => sel.parentId === item.id ) );
                                 return (
                                     <div className="display-list__item" key={item.id}>
                                         <input 

@@ -2,8 +2,9 @@
 // Called from ExercisesPage.js
 
 // import nodes
-import React, {Component} from "react";
-import axios from 'axios';
+import React, {useState} from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 // import components
 import ExerciseMetaList from "./_ExerciseMetaList"
@@ -12,44 +13,39 @@ import DisplayList from "../DisplayList/DisplayList";
 // Import Utilities 
 // import {organiseExercises} from "../../utilities/ArrayUtils/ArrayUtils"; FIX
 
+export default function ExerciseForm(props) {
+    // Set State vars
+    const [message, changeMessage ]             = useState( '' );
+    const [selectedCategory, changeCategory ]   = useState( 2 );
+    const [exerciseParents, changeExerciseParents]  = useState( null );
 
-export default class ExerciseForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            categories: null,
-            message: "",
-            defaultOption: '2',
-            textareaValue: "",
-            sortedExercises: null,
-            selectedCategory: 2,
-            exerciseList: null,
-            selectedExercise: null
-        }
-        this.handleTextareaChange = this.handleTextareaChange.bind(this);
-        this.submit = this.submit.bind(this);
-    }
+    // Set variables
+    const title             = props.exerciseId ? 'Amend Exercise' : 'Create a new Exercise';
+    const button            = props.exerciseId ? 'Amend' : 'Create';
+    const requiredStr       = props.exerciseId ? '' : '(required)';
+    const selectedExercise  = props.exerciseId ? props.exerciseList[props.exerciseId] : null;
+    const textareaValue     = props.exerciseId ? selectedExercise.description : '';
+    // const exerciseParents = props.exerciseId ? this.state.relationships.filter( relationship => relationship.eId ===  this.props.exerciseId ) : null;
+        
 
-    submit = (e) => {
+
+
+
+    // Set functions
+    const submit = (e) => {
         e.preventDefault();
     
         // Reset the message
-        this.setState({
-            message: ""
-        })
+        changeMessage( '' );
     
         // Validate the name
         if( !e.target.name.value )
         {
-            this.setState({
-                message: "Exercise must have a name"
-            })
+            changeMessage( "Exercise must have a name" );
         }
         else if( !this.isNameUnique( e.target.name.value ) )
         {
-            this.setState({
-                message: "Exercise name must be unique"
-            })
+            changeMessage( "Exercise name must be unique" );
         }
         else
         {   
@@ -67,38 +63,38 @@ export default class ExerciseForm extends Component {
                     //console.log( 'response', response.data );
                     // return response
                     //window.location.replace( `/exercises/` );
-                    this.props.setExercises();
+                    props.setExercises();
                     e.target.reset();
-                    this.formReset();
-                    this.props.toggleModal();                    
+                    formReset();
+                    props.toggleModal();                    
                 })
                 .catch( err => console.log( 'Error writing data', err ) );
         } 
-    }    
+    } 
 
     /**
      * Confirm that the provided Name is unique
      * @param (str) Name
      * @returns (bool) false: name already exists
      */
-    isNameUnique = (testName) => {
+    const isNameUnique = (testName) => {
         // console.log( 'exercises', this.props.exerciseList );
-        if( !this.state.exerciseList )
+        if( !props.exerciseList )
         {
             return true;
         }
         else
         {
-            const name = this.state.exerciseList.filter( exercise => exercise.name === testName );
+            const name = this.props.exerciseList.filter( exercise => exercise.name === testName );
             return name.length === 0;
         }
-    }     
+    }  
 
     /**
      * Reset the form then toggle the Modal
      */
-    formReset = () => { 
-        if( this.props.selectedExercise )
+    const formReset = () => { 
+        if( props.selectedExercise )
         {
             window.location.replace( '/exercises' );
         }
@@ -108,111 +104,78 @@ export default class ExerciseForm extends Component {
         Array.from(document.querySelectorAll("textarea")).forEach(
             textarea => (textarea.value = "")
         );
-        this.props.toggleModal();
-    }   
+        props.toggleModal();
+    }     
+
+
+    const changeOption = (id) => {
+        // this.setState({
+        //     defaultOption: id
+        // });
+        changeCategory( id );
+
+
+        // if( this.state.selectedExercise )
+        // {
+        //     this.setState({
+        //         defaultOption: this.state.selectedExercise[0].mId
+        //     })
+        // }
+
+        // // Need to present the possible parent Exercises 
+        // if( !(id === this.state.selectedCategory ) )
+        // {
+        //     this.setState({
+        //         selectedCategory: id
+        //     });
+
+        //     const parentList = this.props.exerciseList.filter( exercise => exercise.mId == id-1 );
+        //     this.setState({
+        //         parentList: parentList
+        //     });
+        // }  
+        const parentList = props.exerciseList.filter( exercise => exercise.mId == id - 1 );      
+
+    }  
+
+    const changeTextareaValue = (e) => {
+        textareaValue = e.target.description.value;
+    }     
     
+    return(
+        <form className="exercise-form form" onSubmit={submit}>
+            <div className="form__message error">{message}</div>
+            <h2 className="form__heading">{title}</h2>
+            <label className="form__input--label">Exercise Name {requiredStr}</label>
+            {(() => {
+                if( props.exerciseId )
+                {
+                    return ( <p className="form__input--statement">{selectedExercise[0].name }</p> )
+                }
+                else
+                {
+                    return ( 
+                        <>
+                            <input className="form__input--text" name="name" placeholder="Exercise name" />
+                            <p className="form__note">Name must be unique</p> 
+                        </>
+                    )
+                }
+            })()}     
 
-    changeOption = (id) => {
-        this.setState({
-            defaultOption: id
-        });
+            <label className="form__input--label">Description</label>
+            <textarea className="form__textarea" placeholder="Description (optional)" name="description" onBlur={changeTextareaValue}></textarea>                    
 
-        if( this.state.selectedExercise )
-        {
-            this.setState({
-                defaultOption: this.state.selectedExercise[0].mId
-            })
-        }
+            <ExerciseMetaList metaList={props.categoryList} selectedCategory={selectedCategory} changeOption={changeOption} />
 
-        // Need to present the possible parent Exercises 
-        if( !(id === this.state.selectedCategory ) )
-        {
-            this.setState({
-                selectedCategory: id
-            });
-            console.log( 'id', typeof( id ) );
-            const parentList = this.props.exerciseList.filter( exercise => exercise.mId == id-1 );
-            this.setState({
-                parentList: parentList
-            });
-        }        
+            {/* <DisplayList list={parentList} selected={exerciseParents} /> */}
 
-    }   
+            <div className="form__action--wrapper">
+                <button className="btn btn__submit">{button}</button>
+                <button type="button" className="btn btn__cancel" onClick={() => formReset()}>Cancel</button>     
+            </div>                
+        </form>
+    );
     
-    handleTextareaChange = (e) => {
-        this.setState({
-            textareaValue: e.target.value
-        })
-    }    
-
-    componentDidMount()
-    {
-    // Get Categories
-        axios
-            .get(  "http://localhost:8080/meta" )
-            .then( response => {
-                this.setState( { categories: response.data } );
-            })
-            .catch( err => { console.log( 'Error retrieving meta data', err ) } );
-        
-            if( this.props.exerciseId )
-            {
-                const selectedExercise = this.props.exerciseId ? this.props.exerciseList.filter( exercise => exercise.id === this.props.exerciseId ) : null;
-                this.setState({
-                    selectedExercise: selectedExercise,
-                    defaultOption: selectedExercise[0].mId,
-                    parentList: this.props.exerciseList.filter( exercise => exercise.mId == selectedExercise[0].mId-1 )
-                });  
-            }          
-    }
-
-    render() {
-        
-        if( !this.state.categories )
-        {
-            return( <p>... Loading Categories ...</p> );
-        }
-        else
-        {
-            const title = this.props.exerciseId ? 'Amend Exercise' : 'Create a new Exercise';
-            const button = this.props.exerciseId ? 'Amend' : 'Create';
-            const requiredStr   = this.props.exerciseId ? '' : '(required)';
-            
-            return(
-                <form className="exercise-form form" onSubmit={this.submit}>
-                    <div className="form__message error">{this.state.message}</div>
-                    <h2 className="form__heading">{title}</h2>
-                    <label className="form__input--label">Exercise Name {requiredStr}</label>
-                    {(() => {
-                        if( this.props.exerciseId )
-                        {
-                            return ( <p className="form__input--statement">{this.state.selectedExercise[0].name }</p> )
-                        }
-                        else
-                        {
-                            return ( 
-                                <>
-                                    <input className="form__input--text" name="name" placeholder="Exercise name" />
-                                    <p className="form__note">Name must be unique</p> 
-                                </>
-                            )
-                        }
-                    })()}     
-
-                    <label className="form__input--label">Description</label>
-                    <textarea className="form__textarea" placeholder="Description (optional)" name="description" onBlur={this.textareaValue}></textarea>                    
-
-                    <ExerciseMetaList metaList={this.state.categories } defaultOption={this.state.defaultOption} changeOption={this.changeOption} />
-
-                    <DisplayList list={this.state.parentList} />
-
-                    <div className="form__action--wrapper">
-                        <button className="btn btn__submit">{button}</button>
-                        <button type="button" className="btn btn__cancel" onClick={() => this.formReset()}>Cancel</button>     
-                    </div>                
-                </form>
-            );
-        }
-    }
-
+    
 }

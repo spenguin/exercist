@@ -2,9 +2,8 @@
 // called from App.js
 
 // import node components
-import React, {Component} from "react";
+import React, {useState} from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 
 // import components
 import Modal from "../../components/Modal/Modal";
@@ -19,121 +18,62 @@ import ExercisesList from "../../components/ExercisesList/ExercisesList"
 // import SCSS
 import "../ExercisesPage/ExercisesPage.scss"
 
+export default function ExercisesPage(props) {
+    // Set State vars
+    const [displayModal, changeModal]           = useState( 'true' );
+    const [currentCategory, setCategory]        = useState( 0 );
+    const [exerciseList, updateExerciseList]    = useState( JSON.parse( window.sessionStorage.getItem( 'exercises' ) ) );
+    const [categoryList, updateCategoryList]    = useState( JSON.parse( window.sessionStorage.getItem( 'meta' ) ) );
+    
+    // Set variables
+    const exerciseSearchList                    = extractPairs( exerciseList, 'id', 'name' );
+    const listCount                             = 5;
+    const params                                = useParams();
+    const exerciseId                            = params.exerciseId ? params.exerciseId : null;    
 
-export default class ViewExercises extends Component {
-    constructor(props) {
-        super(props);
-    }
-    state = {
-        displayModal: true,
-        currentCategory: 0,
-        exercisesList: null,
-        // selectedExercise: null,
-        categoriesList: []
-    }
-
-    componentDidMount() {
-        // Get Exercises
-        this.getExercises();
-    }
-
-    // componentDidUpdate( prevProps )
-    // {
-    //     // const prevId = prevProps.match.params.exerciseId ? prevProps.match.params.exerciseId : null;
-    //     // if( this.props.match.params.exerciseId && ( this.props.match.params.exerciseId !== prevId ) )
-    //     // {   
-    //     //     this.displayExercise( this.props.match.params.exerciseId );
-    //     // }
-    // }
-
-    getExercises()
-    {
-        axios
-            .get(  "http://localhost:8080/exercises/" )
-            .then( response => {
-                
-                this.setState( { exercisesList: response.data } );
-                // if( this.props.match.params.exerciseId )
-                // {
-                //     this.displayExercise( this.props.match.params.exerciseId );
-                // }
-            })
-            .catch( err => { console.log( 'Error retrieving data', err ) } ); 
-            
-            return true;
+    
+    // Set functions
+    const toggleModal = () => {
+        changeModal( !displayModal );
     }
 
-    // displayExercise( id )
-    // {
-    //     // this.setState( {
-    //     //     selectedExercise: this.state.exercisesList.filter( exercise => exercise.id == id ), // FIX ==
-    //     //     displayModal: false
-    //     // })         
-    // }
+    const submitSearch = (e) => {
+        e.preventDefault();
+        const exerciseMatch = exerciseList.filter( exercise => exercise.name === e.target[0].value ); 
+        window.location.replace( `/exercises/${exerciseMatch[0].id}` );
+    }     
 
-    render() {
+    const setExercises = () => {
 
-        const toggleModal = () => {
-            this.setState( { displayModal: !this.state.displayModal } )
-        } 
-
-        const submitSearch = (e) => {
-            e.preventDefault();
-            const exerciseMatch = this.state.exercisesList.filter( exercise => exercise.name === e.target[0].value ); 
-            window.location.replace( `/exercises/${exerciseMatch[0].id}` );
-        }
-
-        const setExercises = () => { 
-            this.getExercises();
-        }
-        
-        if( !this.state.exercisesList )
-        {
-            return ( 
-            
-                <section className="exercises site-main">
-                    <div className="exercises-wrapper max-wrapper">
-                        <p>... Loading Exercises ...</p> 
-                    </div>
-                </section>            
-            );
-        }
-        else
-        {   
-            const exerciseSearchList = extractPairs( this.state.exercisesList, 'id', 'name' ); 
-            const listCount = 5;
-
-            const Wrapper = (props) => {
-                const params = useParams();
-                const exerciseId = params.exerciseId ? params.exerciseId : null;
-
-
-                // return  <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} setExercises={setExercises} {...{...props, match: {params}} } />
-                return  <ExerciseForm exerciseList={this.state.exercisesList} exerciseId={exerciseId} toggleModal={toggleModal} setExercises={setExercises} {...{...props, match: {params}} } />                
-              }
-
-            
-            return (
-                <section className="exercises site-main">
-                    <div className="exercises-wrapper max-wrapper">
-                        <Modal isActive={this.state.displayModal}>
-                            {/* <ExerciseForm exerciseList={this.state.exercisesList} selectedExercise={this.state.selectedExercise} toggleModal={toggleModal} setExercises={setExercises} /> */}
-                            <Wrapper />
-                        </Modal>   
-
-                        <Search list={exerciseSearchList} submit={submitSearch}/>
-
-                        <h3>{listCount} most recent Exercises</h3>
-                        <ExercisesList exercises={this.state.exercisesList} count={listCount} />
-
-                        <div className="site-main__action-wrapper">
-                            <button className="btn btn__add" onClick={toggleModal}>Add an Exercise</button>
-                            <Link to="/"><button type="button" className="btn btn__cancel">Return to Home Page</button></Link>    
-                        </div>              
-                    </div>
-                </section>
-            )
-        }
     }
+
+    return (
+        <section className="exercises site-main">
+            <div className="exercises-wrapper max-wrapper">
+                <Modal isActive={displayModal}>
+                    <ExerciseForm 
+                        exerciseList={exerciseList} 
+                        exerciseId={exerciseId} 
+                        toggleModal={toggleModal} 
+                        setExercises={setExercises} 
+                        categoryList={categoryList}
+                        {...{...props, match: {params}} } 
+                    /> 
+                </Modal>   
+
+                <Search list={exerciseSearchList} submit={submitSearch}/>
+
+                <h3>{listCount} most recent Exercises</h3>
+                <ExercisesList exercises={exerciseList} count={listCount} />
+
+                <div className="site-main__action-wrapper">
+                    <button className="btn btn__add" onClick={toggleModal}>Add an Exercise</button>
+                    <Link to="/"><button type="button" className="btn btn__cancel">Return to Home Page</button></Link>    
+                </div>              
+            </div>
+        </section>
+    )
+
+
 
 }

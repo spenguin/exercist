@@ -7,7 +7,7 @@ import axios from 'axios';
 // import { Link } from "react-router-dom"; FIX
 
 // Import Utility function
-// import * as DataUtils from "../../utilities/DataUtils/DataUtils";
+import {setData} from "../../utilities/DataUtils/DataUtils";
 
 // Import SCSS
 import "./LoginForm.scss";
@@ -51,7 +51,8 @@ export default class LoginForm extends Component {
                 if( response.status === 200 )
                 {
                     window.sessionStorage.setItem("isLoggedIn", "true");
-                    window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
+                    window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); //console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
+                    setData();
                     this.props.toggleModal();
                 }
                 else
@@ -90,7 +91,7 @@ export default class LoginForm extends Component {
                 <label className="form__input--label">Password</label>
                 <input type="password" className="form__input--text" name="password" required />
 
-                <div className="login-form__action form__action">
+                <div className="login-form__action form__action--wrapper">
                     <button className="login-form__action--login btn btn__submit">Login</button>
                     <button type="button" className="btn btn__cancel" onClick={() => this.props.changeModal('forgotten')}>Forgotten password</button>
                 </div>

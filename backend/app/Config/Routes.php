@@ -35,6 +35,7 @@ $routes->setAutoRoute(true);
 $routes->resource( 'exercises' );
 $routes->resource( 'users' );
 $routes->resource( 'meta' );
+$routes->resource( 'relationships' );
 
 /*
  * --------------------------------------------------------------------
