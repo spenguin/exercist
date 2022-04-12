@@ -31,7 +31,7 @@ class Exercises extends ResourceController
 
         $builder    = $this->model->builder();
         $builder->select( '*' );
-        $builder->join( 'exercise_meta as em', 'em.eId = exercises.id' );
+        // $builder->join( 'exercise_meta as em', 'em.eId = exercises.id' );
         $data       = $builder->get()->getResultArray();
 
         return $this->respond( $data );

@@ -16,24 +16,25 @@ import ExercisesList from "../../components/ExercisesList/ExercisesList"
 // import {extractPairs} from "../../utilities/ArrayUtils/ArrayUtils";
 
 // import SCSS
-import "../ExercisesPage/ExercisesPage.scss"
+// import "../ExercisesPage/ExercisesPage.scss"
 
 export default function ExercisesPage(props) {
+    const params                                = useParams();
+
     // Set State vars
-    const [displayModal, changeModal]           = useState( 'true' );
+    const [displayModal, changeModal]           = useState( params.exerciseId ? false : true ); 
     const [currentCategory, setCategory]        = useState( 0 );
     const [exerciseList, updateExerciseList]    = useState( JSON.parse( window.sessionStorage.getItem( 'exercises' ) ) );
-    const [categoryList, updateCategoryList]    = useState( JSON.parse( window.sessionStorage.getItem( 'meta' ) ) );
+    const [exerciseMetaList, updateExerciseMetaList]    = useState( JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) ) );
     
     // Set variables
-    const exerciseSearchList                    = extractPairs( exerciseList, 'id', 'name' );
+    const exerciseSearchList                    = extractPairs( exerciseList, 'id', 'name' ); 
     const listCount                             = 5;
-    const params                                = useParams();
     const exerciseId                            = params.exerciseId ? params.exerciseId : null;    
 
     
     // Set functions
-    const toggleModal = () => {
+    const toggleModal = () => { 
         changeModal( !displayModal );
     }
 
@@ -47,17 +48,19 @@ export default function ExercisesPage(props) {
 
     }
 
+
     return (
         <section className="exercises site-main">
             <div className="exercises-wrapper max-wrapper">
                 <Modal isActive={displayModal}>
                     <ExerciseForm 
-                        exerciseList={exerciseList} 
-                        exerciseId={exerciseId} 
-                        toggleModal={toggleModal} 
-                        setExercises={setExercises} 
-                        categoryList={categoryList}
-                        {...{...props, match: {params}} } 
+                        exerciseList    = {exerciseList} 
+                        exerciseId      = {exerciseId} 
+                        exerciseMetaList= {exerciseMetaList}
+                        toggleModal     = {toggleModal} 
+                        setExercises    = {setExercises} 
+                        // metaList={metaList}
+                        // {...{...props, match: {params}} } 
                     /> 
                 </Modal>   
 

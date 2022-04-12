@@ -1,38 +1,39 @@
-// Exercise Meta List component
-// called from ExerciseForm.js
+// Exercise Meta list component
+// Called from ExerciseForm.js
 
 // import nodes
-import React  from "react";
+import React, {useState} from "react";
 
-export default function ExerciseMetaList( {metaList, selectedCategory, changeOption} )
-{   console.log( 'selectedCategory', selectedCategory ); console.log( 'metaList', metaList );
-    return (
-        Object.keys( metaList ).map(( category, i ) => { 
+// import components
+import ExerciseMetaItem from "./_ExerciseMetaItem";
 
-            if( '0' === metaList[i]['parentId'])
-            {   
-                return( 
-                    <label className="form__input--label" key={i}>Select from {metaList[i]['name']}</label>
-                );
-            }
-            else
-            { 
-                return ( 
-                    <div className="form__radio--wrapper" key={i}>
-                        <input type="radio" 
-                            className="form__radio" 
-                            name="categoryId" 
-                            value={metaList[i]['id']} 
-                            checked={( metaList[i]['id'] ) === selectedCategory} 
-                            onChange={() => changeOption(metaList[i]['id'])} />
-                        <label htmlFor="categoryId" 
-                            className="form__radio-label" 
-                            onClick={() => changeOption(i)}>
-                        {metaList[i]['name']}</label>
-                    </div>
-                );
-            }
-        })
-    );
+
+export default function ExerciseMetaList( { exerciseId } )
+{
     
+    // Set variables
+    const metaList      = JSON.parse( window.sessionStorage.getItem( 'meta' ) );
+    const parentMeta    = metaList.filter( meta => meta.parentId === '0' ); 
+    const exerciseMetaData  = JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) );
+    const selectedMetaIds   = exerciseId ? exerciseMetaData.filter( exercise => exercise.eId == exerciseId ) : ["2"];       
+
+    // Set functions
+
+    const handleChangeMeta = (id) => {
+        
+    }    
+
+    return ( 
+        parentMeta.map( parent => { 
+
+            return( 
+                <>
+                    <label className="form__input--label" >Select from {parent.name}</label> 
+                    { metaList.filter( meta => meta.parentId === parent.id ).map( meta => {
+                        return ( <ExerciseMetaItem meta={meta} key={meta.id} selectedMetaIds={selectedMetaIds} handleChangeMeta={handleChangeMeta} /> );
+                    })}
+                </>
+            );
+        })
+    )
 }

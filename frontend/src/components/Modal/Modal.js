@@ -10,7 +10,7 @@ import "./Modal.scss";
 
 export default function Modal( props )  
 {   
-    const { isActive } = props;
+    const { isActive }  = props; 
 
     return (
         <div className={`modal ${isActive ? "" : "active"}`}>

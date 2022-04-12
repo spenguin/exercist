@@ -65,21 +65,6 @@ export default class LoginForm extends Component {
         }
     }
 
-    /**
-     * Validate the username and password with the db
-     * @returns {obj} userData or false
-     */
-    // validate = ( username, password ) =>
-    // {
-    //     axios
-    //         .post( "http://localhost:8080/api/validate" )
-    //         .then( response => {
-    //             console.log( "response", response );
-    //         })
-    //         .catch( err => console.log( err ) );
-    // }
-
-
     render() {
         return( 
             <form className="login-form form" onSubmit={this.submit}>

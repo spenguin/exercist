@@ -13,17 +13,21 @@ export const setData = () =>
     let exercisesURL    = `${URL}/exercises`;
     let metaURL         = `${URL}/meta`;
     let relationshipsURL= `${URL}/relationships`; 
+    let exercise_metaURL= `${URL}/exercisemeta`;    
     
-    const requestExercises  = axios.get ( exercisesURL );
-    const requestMeta       = axios.get ( metaURL );
-    const requestRelationships = axios.get ( relationshipsURL );
+    const requestExercises      = axios.get ( exercisesURL );
+    const requestMeta           = axios.get ( metaURL );
+    const requestRelationships  = axios.get ( relationshipsURL );
+    const requestExerciseMeta   = axios.get ( exercise_metaURL ); 
 
 
-    axios.all([requestExercises, requestMeta, requestRelationships]).then(axios.spread((...responses) => {
+    axios.all([requestExercises, requestMeta, requestRelationships, requestExerciseMeta ]).then(axios.spread((...responses) => {
 
         window.sessionStorage.setItem( "exercises", JSON.stringify( responses[0].data ) );
         window.sessionStorage.setItem( "meta", JSON.stringify( responses[1].data ) );
         window.sessionStorage.setItem( "relationships", JSON.stringify( responses[2].data ) );
+        window.sessionStorage.setItem( "exercise_meta", JSON.stringify( responses[3].data ) );
+
 
       })).catch(errors => {
       

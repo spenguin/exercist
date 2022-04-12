@@ -36,6 +36,7 @@ $routes->resource( 'exercises' );
 $routes->resource( 'users' );
 $routes->resource( 'meta' );
 $routes->resource( 'relationships' );
+$routes->resource( 'exercisemeta' );
 
 /*
  * --------------------------------------------------------------------

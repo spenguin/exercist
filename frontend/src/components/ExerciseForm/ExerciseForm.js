@@ -3,47 +3,47 @@
 
 // import nodes
 import React, {useState} from "react";
-import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 // import components
-import ExerciseMetaList from "./_ExerciseMetaList"
-import DisplayList from "../DisplayList/DisplayList";
+import ExerciseMetaList from "./_ExerciseMetaList";
+import ExercisesList from "../ExercisesList/ExercisesList"
 
-// Import Utilities 
-// import {organiseExercises} from "../../utilities/ArrayUtils/ArrayUtils"; FIX
 
-export default function ExerciseForm(props) {
-    // Set State vars
-    const [message, changeMessage ]             = useState( '' );
-    const [selectedCategory, changeCategory ]   = useState( 2 );
-    const [exerciseParents, changeExerciseParents]  = useState( null );
+
+export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaList, ...props} )
+{   
+    // Set State variables
+    const selectedExercise  = exerciseId ? exerciseList.filter( exercise => exercise.id === exerciseId ) : null;
+    const [message, changeMessage]                      = useState( '' );
+    const [descriptionValue, changeDescriptionValue]    = useState( exerciseId ? selectedExercise.description : '' );
 
     // Set variables
-    const title             = props.exerciseId ? 'Amend Exercise' : 'Create a new Exercise';
-    const button            = props.exerciseId ? 'Amend' : 'Create';
-    const requiredStr       = props.exerciseId ? '' : '(required)';
-    const selectedExercise  = props.exerciseId ? props.exerciseList[props.exerciseId] : null;
-    const textareaValue     = props.exerciseId ? selectedExercise.description : '';
-    // const exerciseParents = props.exerciseId ? this.state.relationships.filter( relationship => relationship.eId ===  this.props.exerciseId ) : null;
-        
-
-
+    const title             = exerciseId ? 'Amend Exercise' : 'Create a new Exercise';
+    const button            = exerciseId ? 'Amend' : 'Create';
+    const requiredStr       = exerciseId ? '' : '(required)'; 
+    const parentButton      = exerciseId ? 'Amend and Update Parents' : 'Create and Set Parents';
+    const categoryWarning   = exerciseId ? 'Changing the Category will delete any selected Parent' : '';
+    // const selectedMetaIds   = exerciseId ? exerciseMetaData.filter( exercise => exercise.eId == exerciseId ) : ["2"]; 
+    
 
 
     // Set functions
+
+
     const submit = (e) => {
         e.preventDefault();
-    
+
+        // console.log( 'buttonvalue', e.target.buttonValue.value );
         // Reset the message
         changeMessage( '' );
-    
+        
         // Validate the name
         if( !e.target.name.value )
         {
-            changeMessage( "Exercise must have a name" );
+            changeMessage( "Exercise must have a name" ); 
         }
-        else if( !this.isNameUnique( e.target.name.value ) )
+        else if( !isNameUnique( e.target.name.value ) )
         {
             changeMessage( "Exercise name must be unique" );
         }
@@ -69,8 +69,8 @@ export default function ExerciseForm(props) {
                     props.toggleModal();                    
                 })
                 .catch( err => console.log( 'Error writing data', err ) );
-        } 
-    } 
+        }         
+    }
 
     /**
      * Confirm that the provided Name is unique
@@ -78,23 +78,23 @@ export default function ExerciseForm(props) {
      * @returns (bool) false: name already exists
      */
     const isNameUnique = (testName) => {
-        // console.log( 'exercises', this.props.exerciseList );
-        if( !props.exerciseList )
+        if( !exerciseList )
         {
             return true;
         }
         else
         {
-            const name = this.props.exerciseList.filter( exercise => exercise.name === testName );
+            const name = exerciseList.filter( exercise => exercise.name === testName );
             return name.length === 0;
         }
-    }  
+    }     
+
 
     /**
      * Reset the form then toggle the Modal
-     */
+    */
     const formReset = () => { 
-        if( props.selectedExercise )
+        if( selectedExercise )
         {
             window.location.replace( '/exercises' );
         }
@@ -105,77 +105,52 @@ export default function ExerciseForm(props) {
             textarea => (textarea.value = "")
         );
         props.toggleModal();
-    }     
+    } 
 
-
-    const changeOption = (id) => {
-        // this.setState({
-        //     defaultOption: id
-        // });
-        changeCategory( id );
-
-
-        // if( this.state.selectedExercise )
-        // {
-        //     this.setState({
-        //         defaultOption: this.state.selectedExercise[0].mId
-        //     })
-        // }
-
-        // // Need to present the possible parent Exercises 
-        // if( !(id === this.state.selectedCategory ) )
-        // {
-        //     this.setState({
-        //         selectedCategory: id
-        //     });
-
-        //     const parentList = this.props.exerciseList.filter( exercise => exercise.mId == id-1 );
-        //     this.setState({
-        //         parentList: parentList
-        //     });
-        // }  
-        const parentList = props.exerciseList.filter( exercise => exercise.mId == id - 1 );      
-
-    }  
-
-    const changeTextareaValue = (e) => {
-        textareaValue = e.target.description.value;
-    }     
+    const handleChangeDescriptionValue = (e) => {
+        descriptionValue = e.target.description.value;
+    }   
     
-    return(
+    // const handleChangeMeta = (id) => {
+        
+    // }
+    
+    return (
         <form className="exercise-form form" onSubmit={submit}>
             <div className="form__message error">{message}</div>
             <h2 className="form__heading">{title}</h2>
             <label className="form__input--label">Exercise Name {requiredStr}</label>
             {(() => {
-                if( props.exerciseId )
+                if( exerciseId )
                 {
-                    return ( <p className="form__input--statement">{selectedExercise[0].name }</p> )
+                    return ( <p className="form__input--statement">{selectedExercise.name }</p> )
                 }
                 else
                 {
                     return ( 
                         <>
-                            <input className="form__input--text" name="name" placeholder="Exercise name" />
                             <p className="form__note">Name must be unique</p> 
+                            <input className="form__input--text" name="name" placeholder="Exercise name" />
                         </>
                     )
                 }
-            })()}     
+            })()}                 
+
 
             <label className="form__input--label">Description</label>
-            <textarea className="form__textarea" placeholder="Description (optional)" name="description" onBlur={changeTextareaValue}></textarea>                    
+            <textarea className="form__textarea" placeholder="Description (optional)" name="description" onBlur={handleChangeDescriptionValue}></textarea>    
 
-            <ExerciseMetaList metaList={props.categoryList} selectedCategory={selectedCategory} changeOption={changeOption} />
+            <p className="form__note">{categoryWarning}</p>
+            {/* <ExerciseMetaList selectedMetaIds={selectedMetaIds} handleChangeMeta={handleChangeMeta} />   */}
+            <ExerciseMetaList exerciseId={exerciseId} />                 
 
-            {/* <DisplayList list={parentList} selected={exerciseParents} /> */}
 
             <div className="form__action--wrapper">
-                <button className="btn btn__submit">{button}</button>
+                <button className="btn btn__submit" name="buttonValue" value="0">{button}</button>
+
+                <button className="btn btn__submit parentButton" name="buttonValue" value="1">{parentButton}</button>
                 <button type="button" className="btn btn__cancel" onClick={() => formReset()}>Cancel</button>     
-            </div>                
+            </div>  
         </form>
-    );
-    
-    
+    )
 }

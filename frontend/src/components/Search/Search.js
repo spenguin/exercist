@@ -87,12 +87,16 @@ export default class Search extends Component {
  export function extractPairs( array, key, value )
  {   
     const o = [];
-    for( let i = 0; i < array.length; i++ )
+    
+    if( array )
     {
-    o.push({
-        'key': array[i][key],
-        'value': array[i][value]
-        })
-    } 
+        for( let i = 0; i < array.length; i++ )
+        {
+            o.push({
+                'key': array[i][key],
+                'value': array[i][value]
+                })
+        } 
+    }
     return o;
  }
