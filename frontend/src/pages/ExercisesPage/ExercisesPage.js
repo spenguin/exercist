@@ -12,7 +12,7 @@ import ExerciseForm from "../../components/ExerciseForm/ExerciseForm";
 import ExercisesList from "../../components/ExercisesList/ExercisesList"
 
 // import Utilities
-// import {getExercises} from "../../utilities/DataUtils/DataUtils"
+import {updateExerciseData} from "../../utilities/DataUtils/DataUtils";
 // import {extractPairs} from "../../utilities/ArrayUtils/ArrayUtils";
 
 // import SCSS
@@ -45,7 +45,9 @@ export default function ExercisesPage(props) {
     }     
 
     const setExercises = () => {
-
+        updateExerciseData();
+        updateExerciseList( JSON.parse( window.sessionStorage.getItem( 'exercises' ) ) );
+        updateExerciseMetaList( JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) ) );
     }
 
 

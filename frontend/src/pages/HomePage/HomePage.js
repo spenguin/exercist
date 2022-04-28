@@ -31,7 +31,19 @@ export default class HomePage extends Component {
     //   }
 
     componentDidMount(){
-        window.sessionStorage.setItem("isLoggedIn", "false");
+        if( this.props.loggedIn )
+        {
+            this.setState({
+                displayModal: true
+            })
+        }
+        else
+        {
+            window.sessionStorage.setItem("isLoggedIn", "false");
+            this.setState({
+                displayModal: true
+            })
+        }
     }
 
     componentDidUpdate(){

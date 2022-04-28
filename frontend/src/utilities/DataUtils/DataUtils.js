@@ -4,21 +4,33 @@
 import axios from "axios";
 const URL = "http://localhost:8080";
 
+// set URLS
+let exercisesURL    = `${URL}/exercises`;
+let metaURL         = `${URL}/meta`;
+let relationshipsURL= `${URL}/relationships`; 
+let exercise_metaURL= `${URL}/exercisemeta`; 
+
+// set Axios gets
+const requestExercises      = axios.get ( exercisesURL );
+const requestMeta           = axios.get ( metaURL );
+const requestRelationships  = axios.get ( relationshipsURL );
+const requestExerciseMeta   = axios.get ( exercise_metaURL ); 
+
 /**
  * Read the data for the app 
  * Write it to Session variables
  */
 export const setData = () => 
 {   
-    let exercisesURL    = `${URL}/exercises`;
-    let metaURL         = `${URL}/meta`;
-    let relationshipsURL= `${URL}/relationships`; 
-    let exercise_metaURL= `${URL}/exercisemeta`;    
+    // let exercisesURL    = `${URL}/exercises`;
+    // let metaURL         = `${URL}/meta`;
+    // let relationshipsURL= `${URL}/relationships`; 
+    // let exercise_metaURL= `${URL}/exercisemeta`;    
     
-    const requestExercises      = axios.get ( exercisesURL );
-    const requestMeta           = axios.get ( metaURL );
-    const requestRelationships  = axios.get ( relationshipsURL );
-    const requestExerciseMeta   = axios.get ( exercise_metaURL ); 
+    // const requestExercises      = axios.get ( exercisesURL );
+    // const requestMeta           = axios.get ( metaURL );
+    // const requestRelationships  = axios.get ( relationshipsURL );
+    // const requestExerciseMeta   = axios.get ( exercise_metaURL ); 
 
 
     axios.all([requestExercises, requestMeta, requestRelationships, requestExerciseMeta ]).then(axios.spread((...responses) => {
@@ -34,6 +46,21 @@ export const setData = () =>
         console.log( 'Errors reading data', errors );
       
       })
+}
+
+/**
+ * Update the ExerciseList and ExerciseMetaList session data
+ *
+ */
+export const updateExerciseData = () => {
+    axios.all([requestExercises, requestExerciseMeta ]).then(axios.spread((...responses) => {
+
+        window.sessionStorage.setItem( "exercises", JSON.stringify( responses[0].data ) );
+        window.sessionStorage.setItem( "exercise_meta", JSON.stringify( responses[1].data ) );
+
+    })).catch(errors => {
+        console.log( 'Errors re-reading data', errors );
+    })
 }
     
     

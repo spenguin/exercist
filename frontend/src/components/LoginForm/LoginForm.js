@@ -50,7 +50,7 @@ export default class LoginForm extends Component {
 
                 if( response.status === 200 )
                 {
-                    window.sessionStorage.setItem("isLoggedIn", "true");
+                    window.sessionStorage.setItem("isLoggedIn", true);
                     window.sessionStorage.setItem( "user", JSON.stringify( _res ) ); //console.log( "user", JSON.parse( window.sessionStorage.getItem( "user" ) ) );
                     setData();
                     this.props.toggleModal();

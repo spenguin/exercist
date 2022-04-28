@@ -21,7 +21,9 @@ import ClassesPage from "./pages/ClassesPage/ClassesPage";
 // import SCSS
 import "../src/styles/app.scss";
 
-function App() {
+function App() { 
+  const loggedIn = window.sessionStorage.getItem( 'isLoggedIn' ); console.log( 'loggedIn', loggedIn );
+
   return (
     <div className="container">
    
@@ -29,7 +31,7 @@ function App() {
         <SiteHeader />
         <main>   
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage loggedIn={loggedIn} />} />
             <Route path="/reset/:resetId" element={<ResetPage />} />
 
             <Route path="/classes" element={<ClassesPage/>} />
