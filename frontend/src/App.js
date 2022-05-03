@@ -26,7 +26,6 @@ import "../src/styles/app.scss";
 
 function App() { 
   // const loggedIn = window.sessionStorage.getItem( 'isLoggedIn' ); console.log( 'loggedIn', loggedIn );
-  // const [isLoggedIn, setisLoggedIn] = userState(null)
 
   return (
     <div className="container">
@@ -35,7 +34,7 @@ function App() {
         <SiteHeader />
         <main>   
           <Routes>
-            <Route path="/" element={<HomePage loggedIn={window.sessionStorage.getItem( 'isLoggedIn' )} />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/reset/:resetId" element={<ResetPage />} />
 
             <Route path="/classes" element={<ClassesPage/>} />
@@ -46,7 +45,7 @@ function App() {
             <Route 
               path="/exercises/:exerciseId" 
               element={
-                <PrivateRoute isLoggedIn={window.sessionStorage.getItem( 'isLoggedIn' )}>
+                <PrivateRoute>
                   <ExercisesPage />
                 </PrivateRoute>
               }
@@ -55,7 +54,7 @@ function App() {
             <Route 
               path="/exercises" 
               element={
-                <PrivateRoute isLoggedIn={window.sessionStorage.getItem( 'isLoggedIn' )}>
+                <PrivateRoute>
                   <ExercisesPage />
                 </PrivateRoute>
               }

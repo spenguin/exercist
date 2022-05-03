@@ -6,17 +6,19 @@
 
 import { Navigate } from "react-router-dom";
 
-const PrivateRoute = (props) => { console.log( 'props', props );
+const PrivateRoute = (props) => {
 
   // Set variables
-  const isLoggedIn  = props.loggedIn ? props.loggedIn : false;
-  const path        = props.children ? props.loggedIn : '/';
+  const isLoggedIn  = window.sessionStorage.getItem( 'isLoggedIn' ); 
+  // const path        = props.children ? props.loggedIn : '/'; FIX set correct path
 
 
   if (!isLoggedIn) {
     return <Navigate to="/" replace />;
   }
-  return path;
+  return (
+    props.children
+  );
 };
 
 export default PrivateRoute;

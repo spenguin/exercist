@@ -18,7 +18,7 @@ import "../HomePage/HomePage.scss";
 export default function HomePage() {
     
     // Set State vars
-    const [displayModal, changeModal]           = useState( window.sessionStorage.getItem( 'isLoggedIn' ) ? false : window.sessionStorage.getItem( 'isLoggedIn' ) );
+    const [displayModal, changeModal]           = useState( window.sessionStorage.getItem( 'isLoggedIn' ) ? true : window.sessionStorage.getItem( 'isLoggedIn' ) ); 
     const [modalComponent, changeModalComponent]= useState( 'login' );
 
     // Set variables

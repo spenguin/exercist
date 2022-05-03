@@ -2,7 +2,7 @@
 // Really struggling to get this working properly FIX
 
 import axios from "axios";
-const URL = "http://localhost:8080";
+const URL = "http://localhost:8080"; 
 
 // set URLS
 let exercisesURL    = `${URL}/exercises`;
