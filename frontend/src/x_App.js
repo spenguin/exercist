@@ -1,16 +1,13 @@
 // App.js called from index.js
 
 // Import node components 
-import { userState } from "react";
+// import { Component } from "react";
 import { 
   BrowserRouter, 
   Routes, 
   Route, 
   // Redirect 
 } from 'react-router-dom';
-
-// Import components
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 // import build pages
 import SiteHeader from "./components/SiteHeader/SiteHeader";
@@ -25,8 +22,7 @@ import ClassesPage from "./pages/ClassesPage/ClassesPage";
 import "../src/styles/app.scss";
 
 function App() { 
-  // const loggedIn = window.sessionStorage.getItem( 'isLoggedIn' ); console.log( 'loggedIn', loggedIn );
-  // const [isLoggedIn, setisLoggedIn] = userState(null)
+  const loggedIn = window.sessionStorage.getItem( 'isLoggedIn' ); console.log( 'loggedIn', loggedIn );
 
   return (
     <div className="container">
@@ -35,7 +31,7 @@ function App() {
         <SiteHeader />
         <main>   
           <Routes>
-            <Route path="/" element={<HomePage loggedIn={window.sessionStorage.getItem( 'isLoggedIn' )} />} />
+            <Route path="/" element={<HomePage loggedIn={loggedIn} />} />
             <Route path="/reset/:resetId" element={<ResetPage />} />
 
             <Route path="/classes" element={<ClassesPage/>} />
@@ -43,23 +39,8 @@ function App() {
             {/* <Route path="/categories/:categoryId" component={ViewCategories} />
             <Route path="/categories" component={ViewCategories} /> */}
 
-            <Route 
-              path="/exercises/:exerciseId" 
-              element={
-                <PrivateRoute isLoggedIn={window.sessionStorage.getItem( 'isLoggedIn' )}>
-                  <ExercisesPage />
-                </PrivateRoute>
-              }
-            />
-
-            <Route 
-              path="/exercises" 
-              element={
-                <PrivateRoute isLoggedIn={window.sessionStorage.getItem( 'isLoggedIn' )}>
-                  <ExercisesPage />
-                </PrivateRoute>
-              }
-            />            
+            <Route path="/exercises/:exerciseId" element={<ExercisesPage />} />
+            <Route path="/exercises" element={<ExercisesPage />} />
 
           </Routes>
           </main>

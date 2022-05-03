@@ -12,7 +12,7 @@ export default function ExerciseMetaItem( { meta, selectedMetaIds } )
     const params                                = useParams();
     
     // set variables
-    const exerciseMeta  = JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) );
+    // const exerciseMeta  = JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) );
     
     
     // set functions

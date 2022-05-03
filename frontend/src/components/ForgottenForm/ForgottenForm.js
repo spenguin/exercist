@@ -59,7 +59,7 @@ export default class Login extends Component {
                 <label className="form__input--label">Login Name or Email Address</label>
                 <input type="text" className="form__input--text" placeholder="Login Name or Email Address" name="login" required />
 
-                <div className="forgotten-form__action form__action">
+                <div className="forgotten-form__action form__action--wrapper">
                     <button className="forgotten-form__action--login btn btn__submit">Submit</button>
                     <button type="button" className="btn btn__cancel" onClick={() => this.props.changeModal('contact')}>Need more help?</button>
                 </div>

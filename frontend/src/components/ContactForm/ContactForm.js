@@ -26,7 +26,7 @@ export default class ContactForm extends Component {
                 <label className="form__input--label">Your Message</label>
                 <textarea name="message" className="form__textarea" placeholder="Your message" required />
 
-                <div className="contact-form__action form__action">
+                <div className="contact-form__action form__action--wrapper">
                     <button className="contact-form__action--send btn btn__submit">Send</button>
                     <button type="button" className="btn btn__cancel" onClick={() => this.props.changeModal('login')}>Return to Login</button>
                 </div>
