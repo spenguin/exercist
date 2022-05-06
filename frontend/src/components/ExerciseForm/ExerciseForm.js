@@ -30,7 +30,6 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
 
     // Set functions
 
-
     const submit = (e) => {
         e.preventDefault();
 

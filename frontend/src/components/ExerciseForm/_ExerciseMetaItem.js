@@ -7,7 +7,7 @@ import React, {useState} from "react";
 import { Link, useParams } from "react-router-dom";
 
 
-export default function ExerciseMetaItem( { meta, selectedMetaIds } )
+export default function ExerciseMetaItem( { meta, selectedMetaIds, handleChangeMeta } )
 {   
     const params                                = useParams();
     
@@ -16,10 +16,9 @@ export default function ExerciseMetaItem( { meta, selectedMetaIds } )
     
     
     // set functions
-    const handleChangeMeta = (id) => {
+    // const handleChangeMeta = (id) => {
 
-    }
-
+    // }
     const checkedStr    = selectedMetaIds.filter( selected => selected == meta.id ); 
     
     return (
