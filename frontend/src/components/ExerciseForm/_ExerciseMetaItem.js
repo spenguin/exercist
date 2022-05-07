@@ -7,7 +7,7 @@ import React, {useState} from "react";
 import { Link, useParams } from "react-router-dom";
 
 
-export default function ExerciseMetaItem( { meta, selectedMetaIds, handleChangeMeta } )
+export default function ExerciseMetaItem( { meta, selectedMetaIds, handleChangeMeta, name } )
 {   
     const params                                = useParams();
     
@@ -20,16 +20,19 @@ export default function ExerciseMetaItem( { meta, selectedMetaIds, handleChangeM
 
     // }
     const checkedStr    = selectedMetaIds.filter( selected => selected == meta.id ); 
+    // console.log( 'checkStr length', selectedMetaIds.filter( selected => selected == meta.id ).length );
+
+    console.log( 'selectedMeta', selectedMetaIds );
     
     return (
         <div className="form__radio--wrapper">
             <input type="radio" 
                 className="form__radio" 
-                name="categoryId" 
+                name={ name } 
                 value={meta.id} 
-                checked={ checkedStr.length } 
+                checked={ selectedMetaIds.filter( selected => selected == meta.id ).length } 
                 onChange={() => handleChangeMeta(meta.id)} />
-            <label htmlFor="categoryId" 
+            <label htmlFor={ name } 
                 className="form__radio-label" 
                 onClick={() => handleChangeMeta(meta.id)}>
             {meta.name}</label>
