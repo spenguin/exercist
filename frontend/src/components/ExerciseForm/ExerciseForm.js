@@ -3,6 +3,7 @@
 
 // import nodes
 import React, {useState} from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 // import components
@@ -13,6 +14,8 @@ import ExercisesList from "../ExercisesList/ExercisesList"
 
 export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaList, ...props} )
 {   
+    const params                                = useParams();
+    
     // Set State variables
     const selectedExercise  = exerciseId ? exerciseList.filter( exercise => exercise.id === exerciseId ) : null;
     const [message, changeMessage]                      = useState( '' );
@@ -24,16 +27,18 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
     const requiredStr       = exerciseId ? '' : '(required)'; 
     const parentButton      = exerciseId ? 'Amend and Update Parents' : 'Create and Set Parents';
     const categoryWarning   = exerciseId ? 'Changing the Category will delete any selected Parent' : '';
+    const metaList          = JSON.parse( window.sessionStorage.getItem( 'meta' ) );
+    const parentMeta            = metaList.filter( meta => meta.parentId === '0' ); 
     // const selectedMetaIds   = exerciseId ? exerciseMetaData.filter( exercise => exercise.eId == exerciseId ) : ["2"]; 
     
 
 
     // Set functions
 
-    const submit = (e) => {
+    const submit = (path) => (e) => {  console.log( 'name', e );
         e.preventDefault();
 
-        // console.log( 'buttonvalue', e.target.buttonValue.value );
+        // console.log( 'path', path );
         // Reset the message
         changeMessage( '' );
         
@@ -51,24 +56,57 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
             // Name is okay. 
             // Should probably sanitise both name and the description, though FIX
             // Is this an update or a create or both? FIX
-            axios
-                .post( 'http://localhost:8080/exercises/create', {
-                    name: e.target.name.value,
-                    description: e.target.description.value,
-                    categoryId: e.target.categoryId.value,
-                    parentId: e.target.selected ? e.target.selected.value : null
-                })
-                .then( response => {
-                    //console.log( 'response', response.data );
-                    // return response
-                    //window.location.replace( `/exercises/` );
-                    props.setExercises();
-                    e.target.reset();
-                    formReset();
-                    props.toggleModal();                    
-                })
-                .catch( err => console.log( 'Error writing data', err ) );
+            let str = "";
+
+            // get meta parentIds
+            const metaValues = metaList.filter( meta => meta.parentId === '0' ).map( (p) => {
+                str = "e.target.meta_" + p.id + ".value";
+                return eval( str );
+            } );
+            // console.log( 'metaValues', metaValues );
+
+            if( params.exerciseId ) // Updating existing exercise data
+            {
+
+            }
+            else
+            {
+                // If path is 0, just write form content to db and return to Exercise Page
+                // Otherwise write data, then go to the set Parents exercises form in modal
+                if( path )
+                {
+                    console.log( 'add parents' );
+                }
+                else
+                {
+                    console.log( 'don\'t add parents' );
+                }
+                
+                // axios
+                //     .post( 'http://localhost:8080/exercises/create', {
+                //         name: e.target.name.value,
+                //         description: e.target.description.value,
+                //         categoryId: e.target.categoryId.value,
+                //         parentId: e.target.selected ? e.target.selected.value : null
+                //     })
+                //     .then( response => {
+                //         //console.log( 'response', response.data );
+                //         // return response
+                //         //window.location.replace( `/exercises/` );
+                //         props.setExercises();
+                //         e.target.reset();
+                //         formReset();
+                //         props.toggleModal();                    
+                //     })
+                //     .catch( err => console.log( 'Error writing data', err ) );
+            }
         }         
+    }
+
+    // Path based on Button selected
+    const handleButtonClick = ( path ) => {
+        console.log( 'button', path );
+        submit();
     }
 
     /**
@@ -115,7 +153,7 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
     // }
     
     return (
-        <form className="exercise-form form" onSubmit={submit}>
+        <form className="exercise-form form">
             <div className="form__message error">{message}</div>
             <h2 className="form__heading">{title}</h2>
             <label className="form__input--label">Exercise Name {requiredStr}</label>
@@ -145,9 +183,9 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
 
 
             <div className="form__action--wrapper">
-                <button className="btn btn__submit" name="buttonValue" value="0">{button}</button>
+                <button  className="btn btn__submit" name="buttonValue" value="0" onClick={submit(0)}>{button}</button>
 
-                <button className="btn btn__submit parentButton" name="buttonValue" value="1">{parentButton}</button>
+                <button  className="btn btn__submit parentButton" name="buttonValue" value="1" onClick={submit(1)}>{parentButton}</button>
                 <button type="button" className="btn btn__cancel" onClick={() => formReset()}>Cancel</button>     
             </div>  
         </form>

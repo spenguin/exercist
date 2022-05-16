@@ -22,17 +22,17 @@ export default function ExerciseMetaItem( { meta, selectedMetaIds, handleChangeM
     const checkedStr    = selectedMetaIds.filter( selected => selected == meta.id ); 
     // console.log( 'checkStr length', selectedMetaIds.filter( selected => selected == meta.id ).length );
 
-    console.log( 'selectedMeta', selectedMetaIds );
+    // console.log( 'selectedMeta', selectedMetaIds );
     
     return (
         <div className="form__radio--wrapper">
             <input type="radio" 
                 className="form__radio" 
-                name={ name } 
+                name={"meta_" + name}
                 value={meta.id} 
                 checked={ selectedMetaIds.filter( selected => selected == meta.id ).length } 
                 onChange={() => handleChangeMeta(meta.id)} />
-            <label htmlFor={ name } 
+            <label htmlFor={"meta_" + name} 
                 className="form__radio-label" 
                 onClick={() => handleChangeMeta(meta.id)}>
             {meta.name}</label>

@@ -10,6 +10,7 @@ import Modal from "../../components/Modal/Modal";
 import Search, {extractPairs} from "../../components/Search/Search";
 import ExerciseForm from "../../components/ExerciseForm/ExerciseForm";
 import ExercisesList from "../../components/ExercisesList/ExercisesList"
+import ParentForm from "../../components/ParentForm/ParentForm";
 
 // import Utilities
 import {updateExerciseData} from "../../utilities/DataUtils/DataUtils";
@@ -26,11 +27,18 @@ export default function ExercisesPage(props) {
     const [currentCategory, setCategory]        = useState( 0 );
     const [exerciseList, updateExerciseList]    = useState( JSON.parse( window.sessionStorage.getItem( 'exercises' ) ) );
     const [exerciseMetaList, updateExerciseMetaList]    = useState( JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) ) );
+    const [modalComponent, changeModalComponent]= useState( 'exercise' );
+
     
     // Set variables
     const exerciseSearchList                    = extractPairs( exerciseList, 'id', 'name' ); 
     const listCount                             = 5;
     const exerciseId                            = params.exerciseId ? params.exerciseId : null;    
+    const formComponents                        = {
+        exercise: ExerciseForm,
+        parents: ParentForm 
+    }
+    const CurrentComponent = formComponents[modalComponent];
 
     
     // Set functions
@@ -50,12 +58,17 @@ export default function ExercisesPage(props) {
         updateExerciseMetaList( JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) ) );
     }
 
+    const setParents = () => {
+        changeModal( !displayModal );
+
+    }
+
 
     return (
         <section className="exercises site-main">
             <div className="exercises-wrapper max-wrapper">
                 <Modal isActive={displayModal}>
-                    <ExerciseForm 
+                    <CurrentComponent 
                         exerciseList    = {exerciseList} 
                         exerciseId      = {exerciseId} 
                         exerciseMetaList= {exerciseMetaList}

@@ -34,11 +34,11 @@ export default function ExerciseMetaList( { exerciseId } )
         {
             const metaParentId = metaList.filter( m => m.id === changedId ).map( m => m.parentId)[0];//console.log( 'metaParentId', metaParentId );
             const metaSibs = metaList.filter( m => m.parentId == metaParentId ).map( m => m.id );
-            const temp = selectedMetaIds.filter( m => metaSibs.indexOf( m.id ) > -1 ).map( m => m.id ); //.push(id);
+            const temp = selectedMetaIds.filter( m => metaSibs.indexOf( m.id ) > -1 ).map( m => m.id ); 
             temp.push( changedId );
 
         //     console.log( 'metaSibs', metaSibs );
-            console.log( 'selectedMetaIds', selectedMetaIds );
+            // console.log( 'selectedMetaIds', selectedMetaIds );
             changeSelectedMetaIds( temp );
         }
     }    
@@ -56,7 +56,7 @@ export default function ExerciseMetaList( { exerciseId } )
                                 key={meta.id} 
                                 selectedMetaIds={selectedMetaIds} 
                                 handleChangeMeta={handleChangeMeta} 
-                                name={parent.slug}
+                                name={parent.id}
                             /> 
                         );
                     })}
