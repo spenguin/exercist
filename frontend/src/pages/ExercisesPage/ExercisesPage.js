@@ -46,6 +46,14 @@ export default function ExercisesPage(props) {
         changeModal( !displayModal );
     }
 
+    const handleChangeComponent = (page) => {
+        changeModal( true );
+        setTimeout(() =>{
+            changeModalComponent(page);
+            changeModal( false );
+        }, 1000 );
+    }     
+
     const submitSearch = (e) => {
         e.preventDefault();
         const exerciseMatch = exerciseList.filter( exercise => exercise.name === e.target[0].value ); 
@@ -74,6 +82,7 @@ export default function ExercisesPage(props) {
                         exerciseMetaList= {exerciseMetaList}
                         toggleModal     = {toggleModal} 
                         setExercises    = {setExercises} 
+                        handleChangeComponent = {handleChangeComponent}
                         // metaList={metaList}
                         // {...{...props, match: {params}} } 
                     /> 

@@ -12,7 +12,7 @@ import ExercisesList from "../ExercisesList/ExercisesList"
 
 
 
-export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaList, ...props} )
+export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaList, handleChangeComponent, ...props} )
 {   
     const params                                = useParams();
     
@@ -20,6 +20,8 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
     const selectedExercise  = exerciseId ? exerciseList.filter( exercise => exercise.id === exerciseId ) : null;
     const [message, changeMessage]                      = useState( '' );
     const [descriptionValue, changeDescriptionValue]    = useState( exerciseId ? selectedExercise.description : '' );
+    const [nameValue, changeNameValue]                  = useState( exerciseId ? selectedExercise.name : '' );
+    const [selectedMetaIds, changeSelectedMetaIds]      = useState( exerciseId ? exerciseMetaData.filter( exercise => exercise.eId == exerciseId ) : ["2"] );
 
     // Set variables
     const title             = exerciseId ? 'Amend Exercise' : 'Create a new Exercise';
@@ -28,14 +30,15 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
     const parentButton      = exerciseId ? 'Amend and Update Parents' : 'Create and Set Parents';
     const categoryWarning   = exerciseId ? 'Changing the Category will delete any selected Parent' : '';
     const metaList          = JSON.parse( window.sessionStorage.getItem( 'meta' ) );
-    const parentMeta            = metaList.filter( meta => meta.parentId === '0' ); 
+    const parentMeta        = metaList.filter( meta => meta.parentId === '0' ); 
+    const exerciseMetaData  = JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) );
     // const selectedMetaIds   = exerciseId ? exerciseMetaData.filter( exercise => exercise.eId == exerciseId ) : ["2"]; 
     
 
 
     // Set functions
 
-    const submit = (path) => (e) => {  console.log( 'name', e );
+    const submit = (path) => (e) => { 
         e.preventDefault();
 
         // console.log( 'path', path );
@@ -43,11 +46,11 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
         changeMessage( '' );
         
         // Validate the name
-        if( !e.target.name.value )
+        if( !nameValue )
         {
             changeMessage( "Exercise must have a name" ); 
         }
-        else if( !isNameUnique( e.target.name.value ) )
+        else if( !isNameUnique( nameValue ) )
         {
             changeMessage( "Exercise name must be unique" );
         }
@@ -59,10 +62,10 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
             let str = "";
 
             // get meta parentIds
-            const metaValues = metaList.filter( meta => meta.parentId === '0' ).map( (p) => {
-                str = "e.target.meta_" + p.id + ".value";
-                return eval( str );
-            } );
+            // const metaValues = metaList.filter( meta => meta.parentId === '0' ).map( (p) => {
+            //     str = "e.target.meta_" + p.id + ".value";
+            //     return eval( str );
+            // } );
             // console.log( 'metaValues', metaValues );
 
             if( params.exerciseId ) // Updating existing exercise data
@@ -75,11 +78,19 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
                 // Otherwise write data, then go to the set Parents exercises form in modal
                 if( path )
                 {
-                    console.log( 'add parents' );
+                    // console.log( 'add parents' );
+                    // e.target.reset();
+                    formReset();
+                    handleChangeComponent( 'parents' );
+
+
                 }
                 else
                 {
-                    console.log( 'don\'t add parents' );
+                    // console.log( 'don\'t add parents' );
+                    // e.target.reset();
+                    formReset();
+                    props.toggleModal();                      
                 }
                 
                 // axios
@@ -131,10 +142,10 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
      * Reset the form then toggle the Modal
     */
     const formReset = () => { 
-        if( selectedExercise )
-        {
-            window.location.replace( '/exercises' );
-        }
+        // if( selectedExercise )
+        // {
+        //     window.location.replace( '/exercises' );
+        // }
         Array.from(document.querySelectorAll("input")).forEach(
             input => (input.value = "")
         );
@@ -144,13 +155,25 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
         props.toggleModal();
     } 
 
+    /**
+     * handle changes to Exercise Description
+     * @param {str} e 
+     */
     const handleChangeDescriptionValue = (e) => {
-        descriptionValue = e.target.description.value;
-    }   
+        changeDescriptionValue( e.target.value );
+    } 
     
-    // const handleChangeMeta = (id) => {
-        
-    // }
+    /**
+     * handle changes to Exercise Name
+     * @param {str} e 
+     */
+    const handleNameValue = (e) => { 
+        changeNameValue( e.target.value );
+    } 
+    
+    const passSelectedMetaIds = (meta) => {
+        changeSelectedMetaIds( meta );
+    }
     
     return (
         <form className="exercise-form form">
@@ -167,7 +190,7 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
                     return ( 
                         <>
                             <p className="form__note">Name must be unique</p> 
-                            <input className="form__input--text" name="name" placeholder="Exercise name" />
+                            <input className="form__input--text" name="name" placeholder="Exercise name" onBlur={handleNameValue}/>
                         </>
                     )
                 }
@@ -179,7 +202,7 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
 
             <p className="form__note">{categoryWarning}</p>
             {/* <ExerciseMetaList selectedMetaIds={selectedMetaIds} handleChangeMeta={handleChangeMeta} />   */}
-            <ExerciseMetaList exerciseId={exerciseId} />                 
+            <ExerciseMetaList exerciseId={exerciseId} passSelectedMetaIds={passSelectedMetaIds} />                 
 
 
             <div className="form__action--wrapper">

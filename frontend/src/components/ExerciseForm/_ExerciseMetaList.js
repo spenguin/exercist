@@ -8,7 +8,7 @@ import React, {useState} from "react";
 import ExerciseMetaItem from "./_ExerciseMetaItem";
 
 
-export default function ExerciseMetaList( { exerciseId } )
+export default function ExerciseMetaList( { exerciseId, passSelectedMetaIds } )
 {
     
     // Set State variables
@@ -40,6 +40,7 @@ export default function ExerciseMetaList( { exerciseId } )
         //     console.log( 'metaSibs', metaSibs );
             // console.log( 'selectedMetaIds', selectedMetaIds );
             changeSelectedMetaIds( temp );
+            passSelectedMetaIds( temp );
         }
     }    
 
