@@ -89,6 +89,10 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
                 {
                     // console.log( 'don\'t add parents' );
                     // e.target.reset();
+                    console.log( 'name', nameValue );
+                    console.log( 'description', descriptionValue );
+                    console.log( 'selected meta', selectedMetaIds );
+
                     formReset();
                     props.toggleModal();                      
                 }
