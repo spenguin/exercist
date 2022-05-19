@@ -83,9 +83,9 @@ class Exercises extends ResourceController
         helper(['form, url']);
         $rules = [
             'name'          => 'required',
-            'categoryId'    => 'required'
+            'meta'    => 'required'
         ];
-        $data   = [
+        $eData   = [
             'name' => $this->request->getVar( 'name' ),
             'description' => $this->request->getVar( 'description' ),
             'slug'  => url_title( $this->request->getVar( 'name' ), '-', TRUE )
@@ -93,45 +93,53 @@ class Exercises extends ResourceController
         
         if(!$this->validate($rules)) return $this->fail($this->validator->getErrors()); 
         
-        $this->model->save($data); 
+        $this->model->save($eData); 
 
         $eId    = $this->model->getInsertID();
-        $mId    = $this->request->getVar( 'categoryId' ); //var_dump( $mId );
-        $data   = [
-            'eId'   => $eId,
-            'mId'   => $mId
-        ]; 
-
+        $mIds   = $this->request->getVar( 'meta' ); //var_dump( $mId );
         $exercise_meta  = new ExerciseMetaModel();
+
+        foreach( $mIds as $m )
+        {
+            $data   = [
+                'eId'   => $eId,
+                'mId'   => $m
+            ]; 
+
+            $exercise_meta->save( $data );            
+        }
+
         
-        $exercise_meta->save( $data );
+
 
         // // Need to check if any parents have been selected
+        // New function call
 
-        $parentId   = $this->request->getVar( 'parentId' );
+        // $parentId   = $this->request->getVar( 'parentId' );
 
-        if( !empty( $parentId ) )
-        {   
-            $parentId = explode( ',', $parentId ); 
-            $relations  = new RelationshipsModel();
+        // if( !empty( $parentId ) )
+        // {   
+        //     $parentId = explode( ',', $parentId ); 
+        //     $relations  = new RelationshipsModel();
 
-            foreach( $parentId as $pId )
-            {
-                $data   = [
-                    'eId'       => $eId,
-                    'parentId'  => $pId
-                ];
+        //     foreach( $parentId as $pId )
+        //     {
+        //         $data   = [
+        //             'eId'       => $eId,
+        //             'parentId'  => $pId
+        //         ];
 
-                $relations->save( $data );
-            }
-        }
+        //         $relations->save( $data );
+        //     }
+        // }
 
         $response = [
             'status' => 201,
             'error' => null,
             'messages' => [
                 'success' => 'Data Inserted'
-            ]
+            ],
+            'eData' => $eData
         ];
         return $this->respondCreated($response);
     }

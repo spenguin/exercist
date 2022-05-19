@@ -61,7 +61,7 @@ export default function ExercisesPage(props) {
     }     
 
     const setExercises = () => {
-        updateExerciseData();
+        // updateExerciseData();
         updateExerciseList( JSON.parse( window.sessionStorage.getItem( 'exercises' ) ) );
         updateExerciseMetaList( JSON.parse( window.sessionStorage.getItem( 'exercise_meta' ) ) );
     }

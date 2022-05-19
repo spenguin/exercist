@@ -92,28 +92,60 @@ export default function ExerciseForm( {exerciseId, exerciseList, exerciseMetaLis
                     console.log( 'name', nameValue );
                     console.log( 'description', descriptionValue );
                     console.log( 'selected meta', selectedMetaIds );
-
-                    formReset();
-                    props.toggleModal();                      
-                }
                 
-                // axios
-                //     .post( 'http://localhost:8080/exercises/create', {
-                //         name: e.target.name.value,
-                //         description: e.target.description.value,
-                //         categoryId: e.target.categoryId.value,
-                //         parentId: e.target.selected ? e.target.selected.value : null
-                //     })
-                //     .then( response => {
-                //         //console.log( 'response', response.data );
-                //         // return response
-                //         //window.location.replace( `/exercises/` );
-                //         props.setExercises();
-                //         e.target.reset();
-                //         formReset();
-                //         props.toggleModal();                    
-                //     })
-                //     .catch( err => console.log( 'Error writing data', err ) );
+                    axios
+                        .post( 'http://localhost:8080/exercises/create', {
+                            name: nameValue,
+                            description: descriptionValue,
+                            meta: selectedMetaIds
+                            // categoryId: e.target.categoryId.value,
+                            // parentId: e.target.selected ? e.target.selected.value : null
+                        })
+                        .then( response => {
+                            // console.log( 'eData', response.data.eData );
+                            // return response
+                            //window.location.replace( `/exercises/` );
+                            // props.setExercises({
+                            //     eData: response.data.eData,
+                            //     meta: selectedMetaIds
+                            // });
+
+                            axios
+                                .get( "http://localhost:8080//exercises" )
+                                .then( response => {
+                                    console.log( 'exercises', response.data );
+                                    window.sessionStorage.setItem( "exercises", JSON.stringify( response.data ) );
+                                    axios
+                                    .get( "http://localhost:8080//exercisemeta" )
+                                    .then( response => {
+                                        window.sessionStorage.setItem( "exercise_meta", JSON.stringify( response.data ) );
+                                        props.setExercises(); 
+                                        formReset();
+                                        props.toggleModal();                                        
+                                    })
+                                    .catch(errors => {
+                                        console.log( 'Errors re-reading data', errors );
+                                    });
+
+                                })
+                                .catch(errors => {
+                                    console.log( 'Errors re-reading data', errors );
+                                });
+
+
+
+
+                            // const _res = props.setExercises(); 
+                            // e.target.reset();
+                            // formReset();
+                            // props.toggleModal();                    
+                        })
+                        .catch( err => console.log( 'Error writing data', err ) );
+
+
+                        // formReset();
+                        // props.toggleModal();                          
+                }
             }
         }         
     }

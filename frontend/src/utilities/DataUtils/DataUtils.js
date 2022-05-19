@@ -52,8 +52,21 @@ export const setData = () =>
  * Update the ExerciseList and ExerciseMetaList session data
  *
  */
-export const updateExerciseData = () => {
-    axios.all([requestExercises, requestExerciseMeta ]).then(axios.spread((...responses) => {
+export async function updateExerciseData() {
+    
+    // const exercises = JSON.parse( window.sessionStorage.getItem( "exercises" ) ); //console.log( exercises );
+    // exercises.push( data.eData ); //console.log( exercises );
+    // window.sessionStorage.setItem( 'exercises', exercises );
+
+    // const exercise_meta = JSON.parse( window.sessionStorage.getItem( "exercise_meta" ) );
+    // data.meta.map( m => {
+    //     exercise_meta.push({
+
+    //     })
+    // })
+
+    axios.all([requestExercises, requestExerciseMeta ]).then(axios.spread((...responses) => { 
+        
 
         window.sessionStorage.setItem( "exercises", JSON.stringify( responses[0].data ) );
         window.sessionStorage.setItem( "exercise_meta", JSON.stringify( responses[1].data ) );
